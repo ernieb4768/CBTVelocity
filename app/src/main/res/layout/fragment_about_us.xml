@@ -1,0 +1,109 @@
+<ScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context="com.rmh.rhoffman.cbtvelocity.AboutUs">
+	<LinearLayout
+			 android:layout_width="match_parent"
+			 android:layout_height="wrap_content"
+			 android:orientation="vertical">
+	
+		<ImageView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/velocity_image"
+			android:contentDescription="@null"/>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingStart="10dp"
+			android:paddingLeft="10dp"
+			android:paddingEnd="10dp"
+			android:paddingRight="10dp"
+			android:paddingBottom="10dp"
+			android:orientation="vertical">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/heading1"
+				android:text="@string/heading1"
+				android:textSize="22sp"
+				android:paddingBottom="10dp"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/body1"
+				android:text="@string/body1"
+				android:textSize="15sp"
+				android:paddingBottom="10dp"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/heading2"
+				android:text="@string/heading2"
+				android:textSize="22sp"
+				android:paddingBottom="10dp"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/body2"
+				android:text="@string/body2"
+				android:textSize="15sp"
+				android:paddingBottom="10dp"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/heading3"
+				android:text="@string/heading3"
+				android:textSize="22sp"
+				android:paddingBottom="10dp"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/body3"
+				android:text="@string/body3"
+				android:textSize="15sp"
+				android:paddingBottom="10dp"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/heading4"
+				android:text="@string/heading4"
+				android:textSize="22sp"
+				android:paddingBottom="10dp"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/body4"
+				android:text="@string/body4"
+				android:textSize="15sp"
+				android:paddingBottom="10dp"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/heading5"
+				android:text="@string/heading5"
+				android:textSize="22sp"
+				android:paddingBottom="10dp"/>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/body5"
+				android:text="@string/body5"
+				android:textSize="15sp"/>
+
+		</LinearLayout>
+	</LinearLayout>
+</ScrollView>
