@@ -93,13 +93,8 @@ public class MainActivity extends NavigationDrawerActivity{
 				.addSettings(new View.OnClickListener(){
 					@Override
 					public void onClick(View v){
-						Toast.makeText(App.getContext(), "Settings", Toast.LENGTH_SHORT).show();
-					}
-				})
-				.addHelpAndFeedback(new View.OnClickListener(){
-					@Override
-					public void onClick(View v){
-						Toast.makeText(App.getContext(), "Help and Feedback", Toast.LENGTH_SHORT).show();
+						Intent intent = new Intent(App.getContext(), SettingsActivity.class);
+						startActivity(intent);
 					}
 				});
 	}
