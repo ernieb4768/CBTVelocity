@@ -96,6 +96,14 @@ public class MainActivity extends NavigationDrawerActivity{
 						Intent intent = new Intent(App.getContext(), SettingsActivity.class);
 						startActivity(intent);
 					}
+				})
+				.addItem("Contact Us", R.drawable.ic_contact_us_image, new View.OnClickListener(){
+					@Override
+					public void onClick(View v){
+						Intent intent = new Intent(App.getContext(), ContactUs.class);
+						startActivity(intent);
+						Toast.makeText(App.getContext(), "Contact Us", Toast.LENGTH_SHORT).show();
+					}
 				});
 	}
 
