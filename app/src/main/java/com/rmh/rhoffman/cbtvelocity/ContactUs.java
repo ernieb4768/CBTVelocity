@@ -1,23 +1,31 @@
 package com.rmh.rhoffman.cbtvelocity;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.View;
+import android.widget.Toast;
 
 import com.blunderer.materialdesignlibrary.activities.Activity;
 import com.blunderer.materialdesignlibrary.handlers.ActionBarDefaultHandler;
 import com.blunderer.materialdesignlibrary.handlers.ActionBarHandler;
+import com.dexafree.materialList.cards.BasicButtonsCard;
+import com.dexafree.materialList.cards.OnButtonPressListener;
+import com.dexafree.materialList.cards.SmallImageCard;
+import com.dexafree.materialList.model.Card;
+import com.dexafree.materialList.view.MaterialListView;
 
 
 public class ContactUs extends Activity{
 
-	private SwipeRefreshLayout swipe;
-	
-	@Override
+	private MaterialListView cardView;
+
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		// Make the layout refreshable... why? Contact information doesn't need refreshed.
-		setSwipeToRefreshLayout();
+
+		cardView = (MaterialListView) findViewById(R.id.card_list);
+
+		setUpAddress();
+		setUpPhone();
+		setUpEmail();
 	}
 
 	@Override
@@ -30,32 +38,42 @@ public class ContactUs extends Activity{
 		return new ActionBarDefaultHandler(this);
 	}
 
-	private void setSwipeToRefreshLayout(){
-		swipe = (SwipeRefreshLayout) findViewById(R.id.contact_swipe);
-		swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
+	private void setUpAddress(){
+		SmallImageCard address = new SmallImageCard(this);
+		address.setTitle("Mailing Address");
+		address.setDescription(R.string.address);
+		address.setDrawable(R.mipmap.ic_cbt);
+		cardView.add(address);
+	}
+
+	private void setUpPhone(){
+		BasicButtonsCard phone = new BasicButtonsCard(this);
+		phone.setTitle("Phone Number");
+		phone.setDescription("(330)-417-6267");
+		phone.setLeftButtonText("Call");
+		phone.setDividerVisible(true);
+		phone.setOnLeftButtonPressedListener(new OnButtonPressListener(){
 			@Override
-			public void onRefresh(){
-				new DelayThread().execute(new ContactUs());
+			public void onButtonPressedListener(View view, Card card){
+				Toast.makeText(App.getContext(), "Calling...", Toast.LENGTH_SHORT).show();
 			}
 		});
-		swipe.setColorSchemeResources(R.color.primary_dark);
+		cardView.add(phone);
 	}
 
-	private class DelayThread extends AsyncTask<ContactUs, Long, ContactUs>{
-
-		@Override
-		protected ContactUs doInBackground(ContactUs... params){
-			try{
-				Thread.sleep(3000); // 3000 ms is 3 seconds
-			} catch(InterruptedException e){
-				Thread.currentThread().interrupt();
+	private void setUpEmail(){
+		BasicButtonsCard email = new BasicButtonsCard(this);
+		email.setTitle("Email Address");
+		email.setDescription("mshulze@cantonbaptist.org");
+		email.setLeftButtonText("Email");
+		email.setDividerVisible(true);
+		email.setOnLeftButtonPressedListener(new OnButtonPressListener(){
+			@Override
+			public void onButtonPressedListener(View view, Card card){
+				Toast.makeText(App.getContext(), "Sending...", Toast.LENGTH_SHORT).show();
 			}
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(ContactUs contactUs){
-			swipe.setRefreshing(false);
-		}
+		});
+		cardView.add(email);
 	}
+
 }

@@ -102,7 +102,6 @@ public class MainActivity extends NavigationDrawerActivity{
 					public void onClick(View v){
 						Intent intent = new Intent(App.getContext(), ContactUs.class);
 						startActivity(intent);
-						Toast.makeText(App.getContext(), "Contact Us", Toast.LENGTH_SHORT).show();
 					}
 				});
 	}

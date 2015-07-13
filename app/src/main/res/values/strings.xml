@@ -21,6 +21,8 @@
 	<string name="body5">We meet every Sunday morning at 9:00am and every Wednesday at 7:00pm.</string>
 	<string name="title_activity_contact_us">ContactUs</string>
 
+	<string name="address">Canton Baptist Temple\n515 Whipple Ave NW\nCanton, OH 44708</string>
+
 
 
 </resources>

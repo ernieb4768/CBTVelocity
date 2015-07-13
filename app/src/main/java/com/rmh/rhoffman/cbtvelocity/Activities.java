@@ -1,20 +1,20 @@
 package com.rmh.rhoffman.cbtvelocity;
 
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.dexafree.materialList.cards.BigImageCard;
 import com.dexafree.materialList.controller.RecyclerItemClickListener;
 import com.dexafree.materialList.model.CardItemView;
 import com.dexafree.materialList.view.MaterialListView;
+
+import br.com.goncalves.pugnotification.notification.PugNotification;
 
 public class Activities extends Fragment{
 
@@ -42,6 +42,14 @@ public class Activities extends Fragment{
 	                         Bundle savedInstanceState){
 		// Inflate the layout for this fragment
 		parentView = inflater.inflate(R.layout.fragment_activities, container, false);
+
+		setUpSwipeToRefresh();
+		makeCards();
+
+		return parentView;
+	}
+
+	private void setUpSwipeToRefresh(){
 		swipe = (SwipeRefreshLayout) parentView.findViewById(R.id.swipe);
 		swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
 			@Override
@@ -50,12 +58,6 @@ public class Activities extends Fragment{
 			}
 		});
 		swipe.setColorSchemeResources(R.color.primary_dark);
-
-		makeCards();
-
-		//new GetAllActivitiesTask().execute(new ReadFile(fileToOpen));
-
-		return parentView;
 	}
 
 	private void makeCards(){
@@ -71,8 +73,18 @@ public class Activities extends Fragment{
 		listView.addOnItemTouchListener(new RecyclerItemClickListener.OnItemClickListener(){
 			@Override
 			public void onItemClick(CardItemView cardItemView, int i){
-				// Do nothing for now.
-
+				// Add notification, for now.
+				PugNotification.with(App.getContext())
+						.load()
+						.smallIcon(R.mipmap.ic_v_notification)
+						.largeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_v_notification))
+						.autoCancel(true)
+						.title("Velocity")
+						.message("Upcoming activity!")
+						.click(Activities.class)
+						.wear()
+						.background(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_cbt))
+						.build();
 			}
 
 			@Override
