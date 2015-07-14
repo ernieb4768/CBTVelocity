@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import com.blunderer.materialdesignlibrary.activities.Activity;
 import com.blunderer.materialdesignlibrary.handlers.ActionBarDefaultHandler;
@@ -48,6 +47,8 @@ public class ContactUs extends Activity{
 		cardView.add(address);
 	}
 
+	// This sets up a card with the church's phone number, and has a button in the bottom left that will open the default dialer app
+	// with the church number already entered, so all the user has to do is hit send.
 	private void setUpPhone(){
 		BasicButtonsCard phone = new BasicButtonsCard(this);
 		phone.setTitle("Phone Number");
@@ -65,6 +66,8 @@ public class ContactUs extends Activity{
 		cardView.add(phone);
 	}
 
+	// This sets up a card with Mike Shulze's email address, and has a button in the bottom left that will open a chooser dialog to
+	// allow the user to pick their preferred email app, which will start an email to Mike with the subject Requesting Information.
 	private void setUpEmail(){
 		BasicButtonsCard email = new BasicButtonsCard(this);
 		email.setTitle("Email Address");

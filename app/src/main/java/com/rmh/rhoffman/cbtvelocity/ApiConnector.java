@@ -21,7 +21,7 @@ public class ApiConnector{
 	public JSONArray getAllActivities(){
 
 		// URL to the php script on the server
-		String url = "http://192.168.1.102/getAllActivities.php";
+		String url = "http://174.100.202.101/getAllActivities.php";
 
 		// Get HttpResponse Object from the url then get HttpEntity from HttpResponse
 		HttpEntity httpEntity = null;
