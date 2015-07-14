@@ -1,5 +1,7 @@
 package com.rmh.rhoffman.cbtvelocity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -49,13 +51,15 @@ public class ContactUs extends Activity{
 	private void setUpPhone(){
 		BasicButtonsCard phone = new BasicButtonsCard(this);
 		phone.setTitle("Phone Number");
-		phone.setDescription("(330)-417-6267");
+		phone.setDescription("(330)-477-6267");
 		phone.setLeftButtonText("Call");
 		phone.setDividerVisible(true);
 		phone.setOnLeftButtonPressedListener(new OnButtonPressListener(){
 			@Override
 			public void onButtonPressedListener(View view, Card card){
-				Toast.makeText(App.getContext(), "Calling...", Toast.LENGTH_SHORT).show();
+				Intent call = new Intent(Intent.ACTION_DIAL);
+				call.setData(Uri.parse("tel:3304776267"));
+				startActivity(call);
 			}
 		});
 		cardView.add(phone);
@@ -70,7 +74,9 @@ public class ContactUs extends Activity{
 		email.setOnLeftButtonPressedListener(new OnButtonPressListener(){
 			@Override
 			public void onButtonPressedListener(View view, Card card){
-				Toast.makeText(App.getContext(), "Sending...", Toast.LENGTH_SHORT).show();
+				Intent email = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "mshulze@cantonbaptist.org", null));
+				email.putExtra(Intent.EXTRA_SUBJECT, "Requesting Information");
+				startActivity(Intent.createChooser(email, "Send Email"));
 			}
 		});
 		cardView.add(email);
