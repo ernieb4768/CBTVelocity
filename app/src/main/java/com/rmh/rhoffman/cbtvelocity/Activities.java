@@ -47,7 +47,7 @@ public class Activities extends Fragment{
 		swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
 			@Override
 			public void onRefresh(){
-				new RefreshPage().execute(new Activities());
+				new RefreshPage().execute(new ApiConnector());
 			}
 		});
 		swipe.setColorSchemeResources(R.color.primary_dark);
@@ -98,6 +98,11 @@ public class Activities extends Fragment{
 	private class GetAllActivitiesTask extends AsyncTask<ApiConnector, Long, JSONArray>{
 
 		@Override
+		protected void onPreExecute(){
+			swipe.setRefreshing(true);
+		}
+
+		@Override
 		protected JSONArray doInBackground(ApiConnector... params){
 			// This is executed on the background thread.
 			return params[0].getAllActivities();
@@ -111,20 +116,22 @@ public class Activities extends Fragment{
 
 	}
 
-	private class RefreshPage extends AsyncTask<Activities, Long, Activities>{
+	private class RefreshPage extends AsyncTask<ApiConnector, Long, JSONArray>{
 
 		@Override
-		protected Activities doInBackground(Activities... params){
-			try{
-				Thread.sleep(3000); // 3000 ms is 3 seconds
-			} catch(InterruptedException e){
-				Thread.currentThread().interrupt();
-			}
-			return null;
+		protected void onPreExecute(){
+			swipe.setRefreshing(true);
 		}
 
 		@Override
-		protected void onPostExecute(Activities activities){
+		protected JSONArray doInBackground(ApiConnector... params){
+			return params[0].getAllActivities();
+		}
+
+		@Override
+		protected void onPostExecute(JSONArray jsonArray){
+			listView.clear();
+			makeCards(jsonArray);
 			swipe.setRefreshing(false);
 		}
 	}

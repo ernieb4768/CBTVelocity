@@ -45,9 +45,9 @@ public class MainActivity extends NavigationDrawerActivity{
 		int id = item.getItemId();
 		
 		switch(id){
-			case R.id.action_settings:
-				return true;
-			case R.id.action_learn_more:
+			case R.id.action_credits:
+				Intent credits = new Intent(App.getContext(), Credits.class);
+				startActivity(credits);
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
