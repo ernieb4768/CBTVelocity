@@ -98,11 +98,6 @@ public class Activities extends Fragment{
 	private class GetAllActivitiesTask extends AsyncTask<ApiConnector, Long, JSONArray>{
 
 		@Override
-		protected void onPreExecute(){
-			swipe.setRefreshing(true);
-		}
-
-		@Override
 		protected JSONArray doInBackground(ApiConnector... params){
 			// This is executed on the background thread.
 			return params[0].getAllActivities();

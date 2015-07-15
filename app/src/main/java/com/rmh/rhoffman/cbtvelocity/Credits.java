@@ -1,5 +1,7 @@
 package com.rmh.rhoffman.cbtvelocity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,7 +14,12 @@ import com.blunderer.materialdesignlibrary.handlers.ActionBarHandler;
 public class Credits extends ListViewActivity{
 
 	private String[] creditsArray = {"Denis Mondon: material-design-library", "Dexafree: materiallist card library", "Squareup: picasso image loading library"};
-	
+	private String[] urlArray = {
+			"https://github.com/DenisMondon/material-design-library/blob/master/LICENSE",
+			"https://github.com/dexafree/MaterialList#license",
+			"https://github.com/square/picasso/blob/master/LICENSE.txt"
+	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -56,7 +63,8 @@ public class Credits extends ListViewActivity{
 
 	@Override
 	public void onItemClick(AdapterView<?> adapterView, View view, int i, long l){
-
+		Intent intent =	new Intent(Intent.ACTION_VIEW).setData(Uri.parse(urlArray[i]));
+		startActivity(intent);
 	}
 
 	@Override
