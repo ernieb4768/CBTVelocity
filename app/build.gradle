@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.rmh.rhoffman.cbtvelocity"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
@@ -29,6 +29,5 @@ dependencies {
     compile 'com.blunderer:materialdesignlibrary:2.0.0'
     compile 'com.github.dexafree:materiallist:2.4.5'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.github.halysongoncalves:pugnotification:1.4.0'
     compile 'com.android.support:support-v4:22.2.0'
 }
