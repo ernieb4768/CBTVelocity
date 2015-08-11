@@ -21,12 +21,15 @@ public class NotificationService extends Service{
 
 	@Override
 	public void onCreate(){
+		// Get the default notification tone to be played when notification goes off.
 		Uri tone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
+		// Set up the notification manager and create the intents to handle the action when clicked.
 		NotificationManager notification = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		Intent intent1 = new Intent(App.getContext(), MainActivity.class);
 		PendingIntent pendingIntent1 = PendingIntent.getActivity(App.getContext(), 0, intent1, 0);
 
+		// Build the notification and set it to go off.
 		Notification mNotify = new Notification.Builder(App.getContext())
 				.setContentTitle("Velocity Event")
 				.setContentText("There is an upcoming activity that you are invited to attend!")

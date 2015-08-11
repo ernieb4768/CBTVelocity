@@ -5,8 +5,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,8 +28,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -66,12 +62,15 @@ public class Activities extends Fragment{
 		}
 
 		setupSwipeToRefresh();
-		//new GetAllActivitiesTask().execute(new ApiConnector());
 		new MakeAllCardsTask().execute(new MakeAllCards());
 
 		return parentView;
 	}
 
+	/**
+	 * This method is only called the first time the app is opened after installation. It will create the alarm that triggers
+	 * the notifications to be sent out on the schedule set by the calendar.
+	 */
 	private void setRepeatingAlarm(){
 		Intent intent = new Intent(App.getContext(), NotificationService.class);
 		AlarmManager alarmManager = (AlarmManager) App.getContext().getSystemService(Context.ALARM_SERVICE);
@@ -89,6 +88,10 @@ public class Activities extends Fragment{
 		Toast.makeText(App.getContext(), "Alarm is Set", Toast.LENGTH_SHORT).show();
 	}
 
+	/**
+	 * This will start the swipe to refresh feature for the fragment. It is called when the fragment is created so the user
+	 * can immediately refresh the content.
+	 */
 	private void setupSwipeToRefresh(){
 		swipe = (SwipeRefreshLayout) parentView.findViewById(R.id.swipe);
 		swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
@@ -100,22 +103,22 @@ public class Activities extends Fragment{
 		swipe.setColorSchemeResources(R.color.primary_dark);
 	}
 
-	private void makeCards(Collection<Card> list){
+	private void addCardsToListView(Collection<Card> list){
 		listView = (MaterialListView) parentView.findViewById(R.id.material_list);
 
 		listView.addAll(list);
 
-
 		listView.addOnItemTouchListener(new RecyclerItemClickListener.OnItemClickListener(){
 			@Override
 			public void onItemClick(CardItemView cardItemView, int i){
-				// Do nothing...for now.
-
+				// Do nothing...for now. I think eventually I'm going to add another activity that will open when an an item is
+				// clicked. The activity will be a details screen giving more info than what is on the card.
 			}
 
 			@Override
 			public void onItemLongClick(CardItemView cardItemView, int i){
-				// Do nothing...for now.
+				// Do nothing... there will probably not be a long click feature, but the method will stay so that adding that
+				// functionality later on if necessary is easy.
 			}
 		});
 	}
@@ -126,12 +129,13 @@ public class Activities extends Fragment{
 
 		public Collection<Card> createCards(JSONArray jsonArray){
 			int len = jsonArray.length();
+			ArrayList<JSONObject> objects = sortCards(jsonArray);
+
 			String s = "";
 
 			for(int i = 0; i < len; i++){
 				try{
-					JSONObject object = jsonArray.getJSONObject(i);
-
+					JSONObject object = objects.get(i);
 					InputStream inputStream = (InputStream) new URL(object.getString("IMAGE")).getContent();
 					Drawable image = Drawable.createFromStream(inputStream, "IMAGE");
 
@@ -146,9 +150,61 @@ public class Activities extends Fragment{
 			return list;
 		}
 
+		private ArrayList<JSONObject> sortCards(JSONArray jsonArray){
+			int len = jsonArray.length();
+			ArrayList<JSONObject> objects = new ArrayList<>();
+
+			for(int j = 0; j < len; j++){
+				try{
+					JSONObject object = jsonArray.getJSONObject(j);
+					objects.add(object);
+				} catch(JSONException e){
+					e.printStackTrace();
+				}
+			}
+			return objects;
+		}
+
+		private ArrayList<JSONObject> doInsertionSort(ArrayList<JSONObject> objects){
+			JSONObject temp;
+			JSONObject obj1;
+			JSONObject obj2;
+			int len = objects.size();
+			for(int i = 1; i < len; i++){
+				for(int j = i; j > 0; j--){
+					try{
+						if(objects.get(j).getInt("DATE") < objects.get(j-1).getInt("DATE")){
+							obj1 = objects.get(j);
+							obj2 = objects.get(j-1);
+
+							temp = obj1;
+							obj1 = obj2;
+							obj2 = temp;
+						}
+					} catch(JSONException e){
+						e.printStackTrace();
+					}
+				}
+			}
+			return new ArrayList<>();
+		}
+
 	}
 
 	private class MakeAllCardsTask extends AsyncTask<MakeAllCards, Long, Collection<Card>>{
+
+		@Override
+		protected void onPreExecute(){
+			// Necessary in order to show the circular progress bar before content is loaded. Without this code setRefreshing(true)
+			// does not work because this method is called before the fragment has completed onCreateView().
+			swipe.post(new Runnable(){
+				@Override
+				public void run(){
+					swipe.setRefreshing(true);
+				}
+			});
+		}
+
 		@Override
 		protected Collection<Card> doInBackground(MakeAllCards... params){
 			return params[0].createCards(new ApiConnector().getAllActivities());
@@ -156,25 +212,10 @@ public class Activities extends Fragment{
 
 		@Override
 		protected void onPostExecute(Collection<Card> bigImageCards){
-			makeCards(bigImageCards);
+			addCardsToListView(bigImageCards);
+			swipe.setRefreshing(false);
 		}
 	}
-
-	/*private class GetAllActivitiesTask extends AsyncTask<ApiConnector, Long, JSONArray>{
-
-		@Override
-		protected JSONArray doInBackground(ApiConnector... params){
-			// This is executed on the background thread.
-			return params[0].getAllActivities();
-		}
-
-		@Override
-		protected void onPostExecute(JSONArray jsonArray){
-			// This is executed on the main thread.
-			//makeCards();
-		}
-
-	}*/
 
 	private class RefreshPage extends AsyncTask<MakeAllCards, Long, Collection<Card>>{
 
@@ -191,7 +232,7 @@ public class Activities extends Fragment{
 		@Override
 		protected void onPostExecute(Collection<Card> bigImageCards){
 			listView.clear();
-			makeCards(bigImageCards);
+			addCardsToListView(bigImageCards);
 			swipe.setRefreshing(false);
 		}
 	}
