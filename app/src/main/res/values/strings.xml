@@ -19,11 +19,12 @@
 	<string name="body3">We believe and teach that the King James Version Bible is the Holy, inspired word of God, and that the only way to heaven is through a personal relationship with Jesus Christ.</string>
 	<string name="body4">The Canton Baptist Temple is located at: \n515 Whipple Ave. NW \nCanton, OH 44708 \nEnter door G and come up the stairs, you will find us in the first room on the right!</string>
 	<string name="body5">We meet every Sunday morning at 9:00am and every Wednesday at 7:00pm.</string>
-	<string name="title_activity_contact_us">ContactUs</string>
 
+	<string name="title_activity_contact_us">Contact Us</string>
 	<string name="address">Canton Baptist Temple\n515 Whipple Ave NW\nCanton, OH 44708</string>
 	<string name="action_credits">Credits</string>
 	<string name="title_activity_credits">Credits</string>
+	<string name="title_activity_card_details">Card Details</string>
 
 
 

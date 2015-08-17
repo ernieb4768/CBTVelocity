@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,7 +86,7 @@ public class Activities extends Fragment{
 
 		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60, pendingIntent);
 
-		Toast.makeText(App.getContext(), "Alarm is Set", Toast.LENGTH_SHORT).show();
+		//Toast.makeText(App.getContext(), "Alarm is Set", Toast.LENGTH_SHORT).show();
 	}
 
 	/**
@@ -113,6 +114,8 @@ public class Activities extends Fragment{
 			public void onItemClick(CardItemView cardItemView, int i){
 				// Do nothing...for now. I think eventually I'm going to add another activity that will open when an an item is
 				// clicked. The activity will be a details screen giving more info than what is on the card.
+				Intent intent = new Intent(App.getContext(), CardDetails.class);
+				//startActivity(intent);
 			}
 
 			@Override
@@ -128,65 +131,33 @@ public class Activities extends Fragment{
 		private Collection<Card> list = new ArrayList<>();
 
 		public Collection<Card> createCards(JSONArray jsonArray){
-			int len = jsonArray.length();
-			ArrayList<JSONObject> objects = sortCards(jsonArray);
+			if(jsonArray == null){
+				throwError();
+			} else {
+				int len = jsonArray.length();
 
-			String s = "";
+				String s = "";
 
-			for(int i = 0; i < len; i++){
-				try{
-					JSONObject object = objects.get(i);
-					InputStream inputStream = (InputStream) new URL(object.getString("IMAGE")).getContent();
-					Drawable image = Drawable.createFromStream(inputStream, "IMAGE");
+				for(int i = 0; i < len; i++){
+					try{
+						JSONObject object = jsonArray.getJSONObject(i);
+						InputStream inputStream = (InputStream) new URL(object.getString("IMAGE")).getContent();
+						Drawable image = Drawable.createFromStream(inputStream, "IMAGE");
 
-					BigImageCard card = new BigImageCard(App.getContext());
-					card.setDescription(s + object.getString("DESCRIPTION"));
-					card.setDrawable(image);
-					list.add(card);
-				} catch(JSONException | IOException e){
-					e.printStackTrace();
+						BigImageCard card = new BigImageCard(App.getContext());
+						card.setDescription(s + object.getString("DESCRIPTION"));
+						card.setDrawable(image);
+						list.add(card);
+					} catch(JSONException | IOException e){
+						e.printStackTrace();
+					}
 				}
 			}
 			return list;
 		}
 
-		private ArrayList<JSONObject> sortCards(JSONArray jsonArray){
-			int len = jsonArray.length();
-			ArrayList<JSONObject> objects = new ArrayList<>();
-
-			for(int j = 0; j < len; j++){
-				try{
-					JSONObject object = jsonArray.getJSONObject(j);
-					objects.add(object);
-				} catch(JSONException e){
-					e.printStackTrace();
-				}
-			}
-			return objects;
-		}
-
-		private ArrayList<JSONObject> doInsertionSort(ArrayList<JSONObject> objects){
-			JSONObject temp;
-			JSONObject obj1;
-			JSONObject obj2;
-			int len = objects.size();
-			for(int i = 1; i < len; i++){
-				for(int j = i; j > 0; j--){
-					try{
-						if(objects.get(j).getInt("DATE") < objects.get(j-1).getInt("DATE")){
-							obj1 = objects.get(j);
-							obj2 = objects.get(j-1);
-
-							temp = obj1;
-							obj1 = obj2;
-							obj2 = temp;
-						}
-					} catch(JSONException e){
-						e.printStackTrace();
-					}
-				}
-			}
-			return new ArrayList<>();
+		private void throwError(){
+			Toast.makeText(App.getContext(), "Can't connect to the server...", Toast.LENGTH_LONG).show();
 		}
 
 	}

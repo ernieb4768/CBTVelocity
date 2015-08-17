@@ -1,12 +1,16 @@
 package com.rmh.rhoffman.cbtvelocity;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,13 +32,19 @@ public class ApiConnector{
 
 		try{
 			DefaultHttpClient defaultHttpClient = new DefaultHttpClient();
+
+			HttpParams params = new BasicHttpParams();
+			int timeoutConnection = 3000;
+			HttpConnectionParams.setConnectionTimeout(params, timeoutConnection);
+			int timeoutSocket = 5000;
+			HttpConnectionParams.setSoTimeout(params, timeoutSocket);
+
 			HttpGet httpGet = new HttpGet(url);
+			defaultHttpClient.setParams(params);
 
 			HttpResponse httpResponse = defaultHttpClient.execute(httpGet);
 
 			httpEntity = httpResponse.getEntity();
-		} catch(ClientProtocolException e){
-			e.printStackTrace();
 		} catch(IOException e){
 			e.printStackTrace();
 		}
@@ -50,9 +60,7 @@ public class ApiConnector{
 
 				Log.d("Entity response: ", entityResponse);
 
-			} catch(JSONException e){
-				e.printStackTrace();
-			} catch(IOException e){
+			} catch(JSONException | IOException e){
 				e.printStackTrace();
 			}
 		}
