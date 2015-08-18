@@ -131,8 +131,9 @@ public class Activities extends Fragment{
 		private Collection<Card> list = new ArrayList<>();
 
 		public Collection<Card> createCards(JSONArray jsonArray){
+
 			if(jsonArray == null){
-				throwError();
+				list.add(exceptionCard());
 			} else {
 				int len = jsonArray.length();
 
@@ -156,8 +157,11 @@ public class Activities extends Fragment{
 			return list;
 		}
 
-		private void throwError(){
-			Toast.makeText(App.getContext(), "Can't connect to the server...", Toast.LENGTH_LONG).show();
+		private BigImageCard exceptionCard(){
+			BigImageCard card = new BigImageCard(App.getContext());
+			card.setDescription("We're unable to connect to the server...");
+			card.setDrawable("https://scontent-ord1-1.xx.fbcdn.net/hphotos-xaf1/v/t1.0-9/561991_162080323915090_640379256_n.jpg?oh=437c0a40f5728cf21d5b5a4a7d88c85f&oe=55E6B8EB");
+			return card;
 		}
 
 	}

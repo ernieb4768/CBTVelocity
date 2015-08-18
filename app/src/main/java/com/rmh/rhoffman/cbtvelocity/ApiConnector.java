@@ -1,11 +1,9 @@
 package com.rmh.rhoffman.cbtvelocity;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
@@ -14,8 +12,10 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * Class to assist in connecting to an external database.
@@ -47,6 +47,9 @@ public class ApiConnector{
 			httpEntity = httpResponse.getEntity();
 		} catch(IOException e){
 			e.printStackTrace();
+
+			return new JSONArray();
+
 		}
 
 		// Convert the HttpEntity into JSONArray.
