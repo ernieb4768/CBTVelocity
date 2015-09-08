@@ -1,5 +1,6 @@
 package com.rmh.rhoffman.cbtvelocity;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -15,7 +16,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.dexafree.materialList.cards.BigImageCard;
 import com.dexafree.materialList.controller.RecyclerItemClickListener;
@@ -31,7 +31,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 
 
@@ -39,10 +38,18 @@ public class Activities extends Fragment{
 
 	private MaterialListView listView;
 	private View parentView;
-	private SwipeRefreshLayout swipe;
+	public SwipeRefreshLayout swipe;
 
 	public Activities(){
 		// Required empty public constructor
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState){
+		super.onCreate(savedInstanceState);
+
+		//setRetainInstance(true);
+
 	}
 	
 	@Override
@@ -51,42 +58,28 @@ public class Activities extends Fragment{
 		// Inflate the layout for this fragment
 		parentView = inflater.inflate(R.layout.fragment_activities, container, false);
 
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(App.getContext());
-		SharedPreferences.Editor editor = preferences.edit();
-		int alarmInt = preferences.getInt("numberOfLaunches", 1);
-
-		if(alarmInt < 2){
-			setRepeatingAlarm();
-			alarmInt++;
-			editor.putInt("numberOfLaunches", alarmInt);
-			editor.commit();
-		}
-
+		Log.d("Fragment", "Activities initialized...");
 		setupSwipeToRefresh();
-		new MakeAllCardsTask().execute(new MakeAllCards());
+
+		if(listView == null){
+			new CardMakerTask(this).execute(new CardMaker());
+		}
 
 		return parentView;
 	}
 
-	/**
-	 * This method is only called the first time the app is opened after installation. It will create the alarm that triggers
-	 * the notifications to be sent out on the schedule set by the calendar.
-	 */
-	private void setRepeatingAlarm(){
-		Intent intent = new Intent(App.getContext(), NotificationService.class);
-		AlarmManager alarmManager = (AlarmManager) App.getContext().getSystemService(Context.ALARM_SERVICE);
-		PendingIntent pendingIntent = PendingIntent.getService(App.getContext(), 0, intent, 0);
+	@Override
+	public void onStart(){
+		super.onStart();
 
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.SECOND, 0);
-		calendar.set(Calendar.MINUTE, 5);
-		calendar.set(Calendar.HOUR, 10);
-		calendar.set(Calendar.AM_PM, Calendar.PM);
-		calendar.set(Calendar.DAY_OF_MONTH, 27);
-
-		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60, pendingIntent);
-
-		//Toast.makeText(App.getContext(), "Alarm is Set", Toast.LENGTH_SHORT).show();
+		/*Activity activity = getActivity();
+		if(activity instanceof MainActivity){
+			Log.d("Activity", "Activity is MainActivity");
+			MainActivity mainActivity = (MainActivity) activity;
+			//mainActivity.startSavingFragmentState();
+		} else {
+			Log.d("Activity", "Activity is not MainActivity");
+		}*/
 	}
 
 	/**
@@ -98,13 +91,13 @@ public class Activities extends Fragment{
 		swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
 			@Override
 			public void onRefresh(){
-				new RefreshPage().execute(new MakeAllCards());
+				new RefreshPage().execute(new CardMaker());
 			}
 		});
-		swipe.setColorSchemeResources(R.color.primary_dark);
+		swipe.setColorSchemeResources(R.color.accent);
 	}
 
-	private void addCardsToListView(Collection<Card> list){
+	public void addCardsToListView(Collection<Card> list){
 		listView = (MaterialListView) parentView.findViewById(R.id.material_list);
 
 		listView.addAll(list);
@@ -126,7 +119,7 @@ public class Activities extends Fragment{
 		});
 	}
 
-	public class MakeAllCards {
+	public static class CardMaker{
 
 		private Collection<Card> list = new ArrayList<>();
 
@@ -139,19 +132,23 @@ public class Activities extends Fragment{
 
 				String s = "";
 
-				for(int i = 0; i < len; i++){
-					try{
-						JSONObject object = jsonArray.getJSONObject(i);
-						InputStream inputStream = (InputStream) new URL(object.getString("IMAGE")).getContent();
-						Drawable image = Drawable.createFromStream(inputStream, "IMAGE");
+				if(len >= 1){
+					for(int i = 0; i < len; i++){
+						try{
+							JSONObject object = jsonArray.getJSONObject(i);
+							InputStream inputStream = (InputStream) new URL(object.getString("IMAGE")).getContent();
+							Drawable image = Drawable.createFromStream(inputStream, "IMAGE");
 
-						BigImageCard card = new BigImageCard(App.getContext());
-						card.setDescription(s + object.getString("DESCRIPTION"));
-						card.setDrawable(image);
-						list.add(card);
-					} catch(JSONException | IOException e){
-						e.printStackTrace();
+							BigImageCard card = new BigImageCard(App.getContext());
+							card.setDescription(s + object.getString("DESCRIPTION"));
+							card.setDrawable(image);
+							list.add(card);
+						} catch(JSONException | IOException e){
+							e.printStackTrace();
+						}
 					}
+				} else {
+					list.add(exceptionCard());
 				}
 			}
 			return list;
@@ -166,12 +163,9 @@ public class Activities extends Fragment{
 
 	}
 
-	private class MakeAllCardsTask extends AsyncTask<MakeAllCards, Long, Collection<Card>>{
-
+	private class CardMakerTaskA extends AsyncTask<CardMaker, Long, Collection<Card>>{
 		@Override
 		protected void onPreExecute(){
-			// Necessary in order to show the circular progress bar before content is loaded. Without this code setRefreshing(true)
-			// does not work because this method is called before the fragment has completed onCreateView().
 			swipe.post(new Runnable(){
 				@Override
 				public void run(){
@@ -181,7 +175,7 @@ public class Activities extends Fragment{
 		}
 
 		@Override
-		protected Collection<Card> doInBackground(MakeAllCards... params){
+		protected Collection<Card> doInBackground(CardMaker... params){
 			return params[0].createCards(new ApiConnector().getAllActivities());
 		}
 
@@ -192,7 +186,7 @@ public class Activities extends Fragment{
 		}
 	}
 
-	private class RefreshPage extends AsyncTask<MakeAllCards, Long, Collection<Card>>{
+	private class RefreshPage extends AsyncTask<CardMaker, Long, Collection<Card>>{
 
 		@Override
 		protected void onPreExecute(){
@@ -200,7 +194,7 @@ public class Activities extends Fragment{
 		}
 
 		@Override
-		protected Collection<Card> doInBackground(MakeAllCards... params){
+		protected Collection<Card> doInBackground(CardMaker... params){
 			return params[0].createCards(new ApiConnector().getAllActivities());
 		}
 

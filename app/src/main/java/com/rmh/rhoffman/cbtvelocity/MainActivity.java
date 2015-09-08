@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.blunderer.materialdesignlibrary.activities.NavigationDrawerActivity;
 import com.blunderer.materialdesignlibrary.handlers.ActionBarHandler;
@@ -19,14 +18,38 @@ import com.blunderer.materialdesignlibrary.models.Account;
 
 
 public class MainActivity extends NavigationDrawerActivity{
+
+	public MyViewPagerFragmentWithTabs fragment;
+	private Bundle savedInstance;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
+		this.savedInstance = savedInstanceState;
 
-		FragmentTransaction ft  = getSupportFragmentManager().beginTransaction();
-		ft.add(R.id.fragment_container, new MyViewPagerFragmentWithTabs());
-		ft.commit();
+		if(savedInstanceState == null){
+			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+			ft.add(R.id.fragment_container, new MyViewPagerFragmentWithTabs(), "TaskFragment");
+			ft.commit();
+		} else {
+			fragment = (MyViewPagerFragmentWithTabs) getSupportFragmentManager().findFragmentByTag("TaskFragment");
+		}
+	}
+
+	public void startSavingFragmentState(){
+		if(savedInstance == null){
+			fragment = new MyViewPagerFragmentWithTabs();
+			getSupportFragmentManager().beginTransaction().add(fragment, "TaskFragment").commit();
+		} else {
+			fragment = (MyViewPagerFragmentWithTabs) getSupportFragmentManager().findFragmentByTag("TaskFragment");
+		}
+
+		fragment.beginTask(new Activities.CardMaker());
+	}
+
+	@Override
+	protected void onStart(){
+		super.onStart();
 
 	}
 
