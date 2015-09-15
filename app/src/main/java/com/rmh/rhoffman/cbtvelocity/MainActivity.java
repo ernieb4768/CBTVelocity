@@ -20,12 +20,10 @@ import com.blunderer.materialdesignlibrary.models.Account;
 public class MainActivity extends NavigationDrawerActivity{
 
 	public MyViewPagerFragmentWithTabs fragment;
-	private Bundle savedInstance;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		this.savedInstance = savedInstanceState;
 
 		if(savedInstanceState == null){
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -34,17 +32,6 @@ public class MainActivity extends NavigationDrawerActivity{
 		} else {
 			fragment = (MyViewPagerFragmentWithTabs) getSupportFragmentManager().findFragmentByTag("TaskFragment");
 		}
-	}
-
-	public void startSavingFragmentState(){
-		if(savedInstance == null){
-			fragment = new MyViewPagerFragmentWithTabs();
-			getSupportFragmentManager().beginTransaction().add(fragment, "TaskFragment").commit();
-		} else {
-			fragment = (MyViewPagerFragmentWithTabs) getSupportFragmentManager().findFragmentByTag("TaskFragment");
-		}
-
-		fragment.beginTask(new Activities.CardMaker());
 	}
 
 	@Override

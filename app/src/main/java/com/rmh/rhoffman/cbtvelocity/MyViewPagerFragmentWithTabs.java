@@ -3,6 +3,7 @@ package com.rmh.rhoffman.cbtvelocity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.blunderer.materialdesignlibrary.fragments.ViewPagerWithTabsFragment;
 import com.blunderer.materialdesignlibrary.handlers.ViewPagerHandler;
@@ -16,7 +17,6 @@ import com.blunderer.materialdesignlibrary.handlers.ViewPagerHandler;
  */
 public class MyViewPagerFragmentWithTabs extends ViewPagerWithTabsFragment{
 
-	private CardMakerTask task;
 	private Activities activities;
 	private AboutUs aboutUs;
 	
@@ -28,8 +28,6 @@ public class MyViewPagerFragmentWithTabs extends ViewPagerWithTabsFragment{
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 
-		activities = new Activities();
-		aboutUs = new AboutUs();
 	}
 
 	@Override
@@ -40,9 +38,19 @@ public class MyViewPagerFragmentWithTabs extends ViewPagerWithTabsFragment{
 	
 	@Override
 	public ViewPagerHandler getViewPagerHandler(){
+
+		if(activities == null){
+			Log.d("ViewPager", "Activities is null");
+			activities = new Activities();
+		}
+		if(aboutUs == null){
+			Log.d("ViewPager", "AboutUs is null");
+			aboutUs = new AboutUs();
+		}
+
 		return new ViewPagerHandler(App.getContext())
-				.addPage(R.string.section1, new Activities())
-				.addPage(R.string.section2, new AboutUs());
+				.addPage(R.string.section1, activities)
+				.addPage(R.string.section2, aboutUs);
 	}
 
 	@Override
@@ -61,22 +69,13 @@ public class MyViewPagerFragmentWithTabs extends ViewPagerWithTabsFragment{
 	@Override
 	public void onAttach(Activity activity){
 		super.onAttach(activity);
-		if(task != null){
-			task.onAttach(activities);
-		}
+
 	}
 
 	@Override
 	public void onDetach(){
 		super.onDetach();
-		if(task != null){
-			task.onDetach();
-		}
-	}
 
-	public void beginTask(Activities.CardMaker cardMaker){
-		task = new CardMakerTask(activities);
-		task.execute(cardMaker);
 	}
 
 }

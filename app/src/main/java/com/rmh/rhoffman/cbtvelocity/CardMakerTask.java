@@ -1,7 +1,7 @@
 package com.rmh.rhoffman.cbtvelocity;
 
+import android.app.Activity;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
 
 import com.dexafree.materialList.model.Card;
 
@@ -12,32 +12,34 @@ import java.util.Collection;
  */
 public class CardMakerTask extends AsyncTask<Activities.CardMaker, Long, Collection<Card>>{
 
-	private Fragment fragment;
+	private Activity activity;
+	private Activities activities;
 
-	public CardMakerTask(Fragment fragment){
-		onAttach(fragment);
+	public CardMakerTask(Activity activity, Activities activities){
+		this.activities = activities;
+		onAttach(activity);
 	}
 
-	public void onAttach(Fragment fragment){
-		this.fragment = fragment;
+	public void onAttach(Activity activity){
+		this.activity = activity;
 	}
 
 	public void onDetach(){
-		fragment = null;
+		activity = null;
 	}
 
 	@Override
 	protected void onPreExecute(){
 		// Necessary in order to show the circular progress bar before content is loaded. Without this code setRefreshing(true)
 		// does not work because this method is called before the fragment has completed onCreateView().
-		if(fragment != null){
-			((Activities) fragment).swipe.post(new Runnable(){
+		//if(activity != null && activities != null){
+			activities.swipe.post(new Runnable(){
 				@Override
 				public void run(){
-					((Activities) fragment).swipe.setRefreshing(true);
+					activities.swipe.setRefreshing(true);
 				}
 			});
-		}
+		//}
 	}
 
 	@Override
@@ -47,7 +49,7 @@ public class CardMakerTask extends AsyncTask<Activities.CardMaker, Long, Collect
 
 	@Override
 	protected void onPostExecute(Collection<Card> bigImageCards){
-		((Activities)fragment).addCardsToListView(bigImageCards);
-		((Activities)fragment).swipe.setRefreshing(false);
+		activities.addCardsToListView(bigImageCards);
+		activities.swipe.setRefreshing(false);
 	}
 }

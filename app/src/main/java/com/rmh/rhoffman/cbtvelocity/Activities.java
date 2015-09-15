@@ -1,16 +1,12 @@
 package com.rmh.rhoffman.cbtvelocity;
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,6 +25,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,6 +36,9 @@ public class Activities extends Fragment{
 	private MaterialListView listView;
 	private View parentView;
 	public SwipeRefreshLayout swipe;
+	private FragmentManager retainedChildFragmentManager;
+	private CardMakerTask task;
+	private Activity activity;
 
 	public Activities(){
 		// Required empty public constructor
@@ -48,8 +48,6 @@ public class Activities extends Fragment{
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 
-		//setRetainInstance(true);
-
 	}
 	
 	@Override
@@ -58,11 +56,12 @@ public class Activities extends Fragment{
 		// Inflate the layout for this fragment
 		parentView = inflater.inflate(R.layout.fragment_activities, container, false);
 
-		Log.d("Fragment", "Activities initialized...");
 		setupSwipeToRefresh();
 
 		if(listView == null){
-			new CardMakerTask(this).execute(new CardMaker());
+			new CardMakerTask(this.getActivity(), this).execute(new CardMaker());
+		} else {
+			listView = (MaterialListView) parentView.findViewById(R.id.material_list);
 		}
 
 		return parentView;
@@ -71,15 +70,46 @@ public class Activities extends Fragment{
 	@Override
 	public void onStart(){
 		super.onStart();
+	}
 
-		/*Activity activity = getActivity();
-		if(activity instanceof MainActivity){
-			Log.d("Activity", "Activity is MainActivity");
-			MainActivity mainActivity = (MainActivity) activity;
-			//mainActivity.startSavingFragmentState();
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState){
+		super.onActivityCreated(savedInstanceState);
+
+		setRetainInstance(true);
+	}
+
+	@Override
+	public void onAttach(Activity activity){
+		super.onAttach(activity);
+
+		if(retainedChildFragmentManager != null){
+			try{
+				Field childFMField = Fragment.class.getDeclaredField("mChildFragmentManager");
+				childFMField.setAccessible(true);
+				childFMField.set(this, retainedChildFragmentManager);
+			} catch(NoSuchFieldException e){
+				e.printStackTrace();
+			} catch(IllegalAccessException e){
+				e.printStackTrace();
+				Log.d("Velocity", "error");
+			}
 		} else {
-			Log.d("Activity", "Activity is not MainActivity");
-		}*/
+			retainedChildFragmentManager = getChildFragmentManager();
+		}
+
+		this.activity = activity;
+		if(task != null){
+			task.onAttach(activity);
+		}
+	}
+
+	@Override
+	public void onDetach(){
+		super.onDetach();
+		if(task != null){
+			task.onDetach();
+		}
 	}
 
 	/**
