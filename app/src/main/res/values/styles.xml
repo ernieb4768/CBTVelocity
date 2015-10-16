@@ -1,10 +1,8 @@
 <resources>
-	
-	<!-- Base application theme. -->
+
 	<style name="AppTheme" parent="@style/MaterialDesignLibraryTheme.Light">
-	<item name="colorPrimary">#4CAF50</item>
-		<item name="colorPrimaryDark">#388E3C</item>
-		<!--<item name="accent">#448AFF</item>-->
+		<item name="colorPrimary">@color/primary</item>
+		<item name="colorPrimaryDark">@color/primary_dark</item>
 	</style>
 
 </resources>

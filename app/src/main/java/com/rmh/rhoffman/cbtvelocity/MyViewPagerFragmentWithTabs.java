@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.blunderer.materialdesignlibrary.fragments.ViewPagerFragment;
 import com.blunderer.materialdesignlibrary.fragments.ViewPagerWithTabsFragment;
 import com.blunderer.materialdesignlibrary.handlers.ViewPagerHandler;
 
@@ -15,7 +16,7 @@ import com.blunderer.materialdesignlibrary.handlers.ViewPagerHandler;
  * This sets up the ViewPagerWithTabs in the MainActivity and adds the fragments to
  * each tab in the pager.
  */
-public class MyViewPagerFragmentWithTabs extends ViewPagerWithTabsFragment{
+public class MyViewPagerFragmentWithTabs extends ViewPagerFragment{
 
 	private Activities activities;
 	private AboutUs aboutUs;
@@ -28,11 +29,6 @@ public class MyViewPagerFragmentWithTabs extends ViewPagerWithTabsFragment{
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 
-	}
-
-	@Override
-	protected boolean expandTabs(){
-		return true;
 	}
 	
 	
@@ -59,11 +55,21 @@ public class MyViewPagerFragmentWithTabs extends ViewPagerWithTabsFragment{
 	}
 
 	@Override
+	public boolean showViewPagerIndicator(){
+		return false;
+	}
+
+	@Override
 	public void onActivityCreated(Bundle savedInstanceState){
 		super.onActivityCreated(savedInstanceState);
 
 		// Retain state across configuration changes, i.e. screen orientation.
 		setRetainInstance(true);
+	}
+
+	@Override
+	public boolean replaceActionBarTitleByViewPagerPageTitle() {
+		return true;
 	}
 
 	@Override

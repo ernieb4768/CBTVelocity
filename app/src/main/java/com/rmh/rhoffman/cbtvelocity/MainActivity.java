@@ -1,6 +1,7 @@
 package com.rmh.rhoffman.cbtvelocity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -20,18 +21,32 @@ import com.blunderer.materialdesignlibrary.models.Account;
 public class MainActivity extends NavigationDrawerActivity{
 
 	public MyViewPagerFragmentWithTabs fragment;
+	private FragmentTransaction ft;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 
-		if(savedInstanceState == null){
-			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		int orientation = getResources().getConfiguration().orientation;
+
+		ft = getSupportFragmentManager().beginTransaction();
+
+		if(getSupportFragmentManager().findFragmentByTag("TaskFragment") == null){
 			ft.add(R.id.fragment_container, new MyViewPagerFragmentWithTabs(), "TaskFragment");
 			ft.commit();
-		} else {
+		} else if(orientation == Configuration.ORIENTATION_LANDSCAPE){
 			fragment = (MyViewPagerFragmentWithTabs) getSupportFragmentManager().findFragmentByTag("TaskFragment");
+			ft.replace(R.id.fragment_container, fragment, "TaskFragment");
+			ft.commit();
+		} else if(orientation == Configuration.ORIENTATION_PORTRAIT){
+			ft.replace(R.id.fragment_container, new MyViewPagerFragmentWithTabs(), "TaskFragment");
+			ft.commit();
 		}
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState){
+		super.onSaveInstanceState(outState);
 	}
 
 	@Override

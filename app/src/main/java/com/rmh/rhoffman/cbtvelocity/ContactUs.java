@@ -1,32 +1,33 @@
 package com.rmh.rhoffman.cbtvelocity;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import com.blunderer.materialdesignlibrary.activities.Activity;
 import com.blunderer.materialdesignlibrary.handlers.ActionBarDefaultHandler;
 import com.blunderer.materialdesignlibrary.handlers.ActionBarHandler;
-import com.dexafree.materialList.cards.BasicButtonsCard;
-import com.dexafree.materialList.cards.OnButtonPressListener;
-import com.dexafree.materialList.cards.SmallImageCard;
-import com.dexafree.materialList.model.Card;
-import com.dexafree.materialList.view.MaterialListView;
+
+import java.util.ArrayList;
 
 
 public class ContactUs extends Activity{
 
-	private MaterialListView cardView;
+	private RecyclerView cardView;
+	private RecyclerView.LayoutManager layoutManager;
+	private SideImageCardAdapter adapter;
+	private ArrayList<SideImageCard> cards = new ArrayList<>();
 
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 
-		cardView = (MaterialListView) findViewById(R.id.card_list);
+		setUpCards();
 
-		setUpAddress();
-		setUpPhone();
-		setUpEmail();
+		cardView = (RecyclerView) findViewById(R.id.card_list);
+		layoutManager = new LinearLayoutManager(App.getContext());
+		cardView.setLayoutManager(layoutManager);
+		adapter = new SideImageCardAdapter(cards);
+		cardView.setAdapter(adapter);
 	}
 
 	@Override
@@ -39,50 +40,56 @@ public class ContactUs extends Activity{
 		return new ActionBarDefaultHandler(this);
 	}
 
+	private void setUpCards(){
+		setUpAddress();
+		setUpPhone();
+		setUpEmail();
+	}
+
 	private void setUpAddress(){
-		SmallImageCard address = new SmallImageCard(this);
+		SideImageCard address = new SideImageCard();
 		address.setTitle("Mailing Address");
-		address.setDescription(R.string.address);
-		address.setDrawable(R.mipmap.ic_cbt);
-		cardView.add(address);
+		address.setSubtitle(R.string.address);
+		address.setImage(R.mipmap.ic_cbt_circle);
+		cards.add(address);
 	}
 
 	// This sets up a card with the church's phone number, and has a button in the bottom left that will open the default dialer app
 	// with the church number already entered, so all the user has to do is hit send.
 	private void setUpPhone(){
-		BasicButtonsCard phone = new BasicButtonsCard(this);
+		SideImageCard phone = new SideImageCard();
 		phone.setTitle("Phone Number");
-		phone.setDescription("(330)-477-6267");
-		phone.setLeftButtonText("Call");
-		phone.setDividerVisible(true);
-		phone.setOnLeftButtonPressedListener(new OnButtonPressListener(){
+		phone.setSubtitle("(330)-477-6267");
+		phone.setImage(R.mipmap.ic_cbt_circle);
+		//phone.setLeftButtonText("Call");
+		/*phone.setOnLeftButtonPressedListener(new OnButtonPressListener(){
 			@Override
 			public void onButtonPressedListener(View view, Card card){
 				Intent call = new Intent(Intent.ACTION_DIAL);
 				call.setData(Uri.parse("tel:3304776267"));
 				startActivity(call);
 			}
-		});
-		cardView.add(phone);
+		});*/
+		cards.add(phone);
 	}
 
 	// This sets up a card with Mike Shulze's email address, and has a button in the bottom left that will open a chooser dialog to
 	// allow the user to pick their preferred email app, which will start an email to Mike with the subject Requesting Information.
 	private void setUpEmail(){
-		BasicButtonsCard email = new BasicButtonsCard(this);
+		SideImageCard email = new SideImageCard();
 		email.setTitle("Email Address");
-		email.setDescription("mshulze@cantonbaptist.org");
-		email.setLeftButtonText("Email");
-		email.setDividerVisible(true);
-		email.setOnLeftButtonPressedListener(new OnButtonPressListener(){
+		email.setSubtitle("mshulze@cantonbaptist.org");
+		email.setImage(R.mipmap.ic_mike_shulze);
+		//email.setLeftButtonText("Email");
+		/*email.setOnLeftButtonPressedListener(new OnButtonPressListener(){
 			@Override
 			public void onButtonPressedListener(View view, Card card){
 				Intent email = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "mshulze@cantonbaptist.org", null));
 				email.putExtra(Intent.EXTRA_SUBJECT, "Requesting Information");
 				startActivity(Intent.createChooser(email, "Send Email"));
 			}
-		});
-		cardView.add(email);
+		});*/
+		cards.add(email);
 	}
 
 }
