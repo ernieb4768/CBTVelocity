@@ -107,9 +107,9 @@ public class MainActivity extends NavigationDrawerActivity{
 		String velocityURL = "http://www.cantonbaptist.org/ministries/high-school";
 
 		return new NavigationDrawerTopHandler(App.getContext())
-				.addItem("Learn More", R.mipmap.ic_launcher_crop, new Intent(Intent.ACTION_VIEW).setData(Uri.parse(velocityURL)))
-				.addItem("Facebook", R.mipmap.ic_facebook, new Intent(Intent.ACTION_VIEW).setData(Uri.parse(facebookURL)))
-				.addItem("CBT", R.mipmap.ic_cbt, new Intent(Intent.ACTION_VIEW).setData(Uri.parse(cbtURL)));
+				.addItem("Learn More", R.mipmap.ic_velocity_circle, new Intent(Intent.ACTION_VIEW).setData(Uri.parse(velocityURL)))
+				.addItem("Facebook", R.mipmap.ic_facebook_circle, new Intent(Intent.ACTION_VIEW).setData(Uri.parse(facebookURL)))
+				.addItem("CBT", R.mipmap.ic_cbt_circle, new Intent(Intent.ACTION_VIEW).setData(Uri.parse(cbtURL)));
 	}
 
 	@Override
