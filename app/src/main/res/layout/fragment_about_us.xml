@@ -133,7 +133,7 @@
 			android:src="@drawable/ic_phone_call"
 			android:visibility="invisible"
 			app:fabSize="mini"
-			app:elevation="4dp"
+			app:elevation="6dp"
 			app:borderWidth="0dp"
 			app:backgroundTint="@color/primary_dark"/>
 
@@ -147,7 +147,7 @@
 			android:src="@drawable/ic_send_email"
 			android:visibility="invisible"
 			app:fabSize="mini"
-			app:elevation="4dp"
+			app:elevation="6dp"
 			app:borderWidth="0dp"
 			app:backgroundTint="@color/primary_dark"/>
 
@@ -158,7 +158,7 @@
 			android:layout_gravity="bottom|end"
 			android:layout_margin="16dp"
 			android:src="@drawable/ic_plus_sign"
-			app:elevation="4dp"
+			app:elevation="8dp"
 			app:borderWidth="0dp"
 			app:backgroundTint="@color/accent"/>
 

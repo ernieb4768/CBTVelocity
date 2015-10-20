@@ -1,6 +1,8 @@
 package com.rmh.rhoffman.cbtvelocity;
 
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,6 +15,8 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -62,15 +66,12 @@ public class AboutUs extends Fragment{
 	}
 
 	public void setAdditionalFABs(){
+
 		if(FAB_VISIBILITY == 0){
-			fabCall.setVisibility(View.VISIBLE);
-			fabMail.setVisibility(View.VISIBLE);
-			fabMain.setImageDrawable(ContextCompat.getDrawable(App.getContext(), R.drawable.ic_close));
+			animateAdditionalFABsIn();
 			FAB_VISIBILITY = 1;
 		} else if(FAB_VISIBILITY == 1){
-			fabCall.setVisibility(View.INVISIBLE);
-			fabMail.setVisibility(View.INVISIBLE);
-			fabMain.setImageDrawable(ContextCompat.getDrawable(App.getContext(), R.drawable.ic_plus_sign));
+			animateAdditionalFABsOut();
 			FAB_VISIBILITY = 0;
 		}
 
@@ -93,6 +94,58 @@ public class AboutUs extends Fragment{
 			});
 		}
 
+	}
+
+	public void animateAdditionalFABsIn(){
+		Animation animation = AnimationUtils.loadAnimation(App.getContext(), R.anim.slide_up);
+		animation.setAnimationListener(new Animation.AnimationListener(){
+			@Override
+			public void onAnimationStart(Animation animation){
+
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation){
+				fabCall.setVisibility(View.VISIBLE);
+				fabMail.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation){
+
+			}
+		});
+
+		fabCall.startAnimation(animation);
+		fabMail.startAnimation(animation);
+
+		fabMain.setImageDrawable(ContextCompat.getDrawable(App.getContext(), R.drawable.ic_close));
+	}
+
+	public void animateAdditionalFABsOut(){
+		Animation animation = AnimationUtils.loadAnimation(App.getContext(), R.anim.slide_down);
+		animation.setAnimationListener(new Animation.AnimationListener(){
+			@Override
+			public void onAnimationStart(Animation animation){
+
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation){
+				fabCall.setVisibility(View.INVISIBLE);
+				fabMail.setVisibility(View.INVISIBLE);
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation){
+
+			}
+		});
+
+		fabCall.startAnimation(animation);
+		fabMail.startAnimation(animation);
+
+		fabMain.setImageDrawable(ContextCompat.getDrawable(App.getContext(), R.drawable.ic_plus_sign));
 	}
 
 	public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
