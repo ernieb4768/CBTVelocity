@@ -42,6 +42,7 @@ public class MainActivity extends NavigationDrawerActivity{
 			ft.replace(R.id.fragment_container, new MyViewPagerFragmentWithTabs(), "TaskFragment");
 			ft.commit();
 		}
+
 	}
 
 	@Override
@@ -103,7 +104,8 @@ public class MainActivity extends NavigationDrawerActivity{
 	@Override
 	public NavigationDrawerTopHandler getNavigationDrawerTopHandler(){
 		String cbtURL = "http://www.cantonbaptist.org";
-		String facebookURL = "https://www.facebook.com/cbt.velocity";
+		//String facebookURL = "https://www.facebook.com/cbt.velocity";
+		String facebookURL = "fb://feed/{cbt.velocity}";
 		String velocityURL = "http://www.cantonbaptist.org/ministries/high-school";
 
 		return new NavigationDrawerTopHandler(App.getContext())

@@ -13,10 +13,9 @@ import com.blunderer.materialdesignlibrary.handlers.ActionBarHandler;
 
 public class Credits extends ListViewActivity{
 
-	private String[] creditsArray = {"Denis Mondon: material-design-library", "Dexafree: materiallist card library", "Squareup: picasso image loading library"};
+	private String[] creditsArray = {"Denis Mondon: material-design-library", "Squareup: picasso image loading library"};
 	private String[] urlArray = {
 			"https://github.com/DenisMondon/material-design-library/blob/master/LICENSE",
-			"https://github.com/dexafree/MaterialList#license",
 			"https://github.com/square/picasso/blob/master/LICENSE.txt"
 	};
 

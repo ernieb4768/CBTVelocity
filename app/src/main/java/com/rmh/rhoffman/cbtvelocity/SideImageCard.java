@@ -1,8 +1,12 @@
 package com.rmh.rhoffman.cbtvelocity;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  * A side image card class.
@@ -14,9 +18,12 @@ public class SideImageCard {
 	private String imageURL;
 	private Drawable image;
 	private String buttonText;
+	private OnButtonClickListener listener;
+	private View.OnClickListener onClickListener;
+	private boolean visibility = true;
 
 	public SideImageCard(){
-		// Blank constructor
+
 	}
 
 	public void setTitle(String title){
@@ -69,6 +76,34 @@ public class SideImageCard {
 
 	public Drawable getImage(){
 		return image;
+	}
+
+	public void setDividerVisibility(boolean visible){
+		this.visibility = visible;
+	}
+
+	public boolean getDividerVisibility(){
+		return visibility;
+	}
+
+	public void setOnButtonClickListener(OnButtonClickListener listener){
+		this.listener = listener;
+	}
+
+	public OnButtonClickListener getOnButtonClickListener(){
+		return listener;
+	}
+
+	public void setOnClickListener(View.OnClickListener listener){
+		this.onClickListener = listener;
+	}
+
+	public View.OnClickListener getOnClickListener(){
+		return onClickListener;
+	}
+
+	public interface OnButtonClickListener {
+		void onButtonClicked(View view, SideImageCard card);
 	}
 
 }

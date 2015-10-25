@@ -19,6 +19,12 @@
 			android:layout_height="100dp"
 			android:src="@mipmap/ic_cbt_circle"/>
 
+		<ImageView
+			android:id="@+id/blankImage"
+			android:layout_width="100dp"
+			android:layout_height="40dp"
+			android:layout_below="@id/sideImage"/>
+
 		<TextView
 			android:id="@+id/titleText"
 			android:layout_width="wrap_content"
@@ -40,9 +46,42 @@
 			android:layout_toEndOf="@id/sideImage"
 			android:layout_below="@id/titleText"
 			android:layout_marginLeft="16dp"
+			android:layout_marginStart="16dp"
 			android:layout_marginRight="4dp"
+			android:layout_marginEnd="4dp"
+			android:layout_marginBottom="8dp"
 			android:textSize="16sp"
 			android:text="Subtitle Text Goes Here"/>
+
+		<View
+			android:id="@+id/divider"
+			android:layout_width="wrap_content"
+			android:layout_height="1dp"
+			android:layout_below="@id/subTitleText"
+			android:layout_toEndOf="@id/sideImage"
+			android:layout_toRightOf="@id/sideImage"
+			android:layout_marginRight="8dp"
+			android:layout_marginEnd="8dp"
+			android:layout_marginStart="16dp"
+			android:layout_marginLeft="16dp"
+			android:backgroundTint="@color/divider"
+			android:background="@color/divider"
+			android:visibility="visible"/>
+
+		<TextView
+			android:id="@+id/cardButtonTextView"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@id/divider"
+			android:layout_toEndOf="@id/blankImage"
+			android:layout_toRightOf="@id/blankImage"
+			android:layout_marginTop="8dp"
+			android:layout_marginStart="16dp"
+			android:layout_marginLeft="16dp"
+			android:textColor="#FF9800"
+			android:textSize="18sp"
+			android:clickable="true"
+			android:text="BUTTON"/>
 
 	</RelativeLayout>
 

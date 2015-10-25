@@ -1,8 +1,5 @@
 package com.rmh.rhoffman.cbtvelocity;
 
-
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -11,13 +8,17 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 
 import com.squareup.picasso.Picasso;
 
@@ -28,6 +29,7 @@ import com.squareup.picasso.Picasso;
 public class AboutUs extends Fragment{
 
 	private View rootView;
+	private ScrollView scrollView;
 	private FloatingActionButton fabMain;
 	private FloatingActionButton fabCall;
 	private FloatingActionButton fabMail;
@@ -43,6 +45,9 @@ public class AboutUs extends Fragment{
 	                         Bundle savedInstanceState){
 
 		rootView = inflater.inflate(R.layout.fragment_about_us, container, false);
+
+		scrollView = (ScrollView) rootView.findViewById(R.id.scrollViewAbout);
+		listenForScroll();
 
 		ImageView imageView = (ImageView) rootView.findViewById(R.id.velocity_image);
 		Picasso.with(App.getContext())
@@ -63,6 +68,10 @@ public class AboutUs extends Fragment{
 
 		// Inflate the layout for this fragment
 		return rootView;
+	}
+
+	private void listenForScroll(){
+
 	}
 
 	public void setAdditionalFABs(){
@@ -146,25 +155,6 @@ public class AboutUs extends Fragment{
 		fabMail.startAnimation(animation);
 
 		fabMain.setImageDrawable(ContextCompat.getDrawable(App.getContext(), R.drawable.ic_plus_sign));
-	}
-
-	public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
-
-		public ScrollAwareFABBehavior(Context context, AttributeSet attrs){
-			super();
-		}
-
-		@Override
-		public void onNestedScroll(CoordinatorLayout coordinatorLayout, FloatingActionButton child, View target,
-		                           int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed){
-			super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
-
-			if(dyConsumed > 0 && child.getVisibility() == View.VISIBLE){
-				child.hide();
-			} else if(dyConsumed < 0 && child.getVisibility() != View.VISIBLE){
-				child.show();
-			}
-		}
 	}
 	
 }

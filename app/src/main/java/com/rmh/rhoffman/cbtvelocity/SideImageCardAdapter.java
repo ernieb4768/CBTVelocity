@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class SideImageCardAdapter extends RecyclerView.Adapter<SideImageCardAdapter.SideImageCardViewHolder>{
 
 	public ArrayList<SideImageCard> cards;
+	public View.OnClickListener listener;
 
 	public SideImageCardAdapter(ArrayList<SideImageCard> sideImageCards){
 		this.cards = sideImageCards;
@@ -26,6 +27,8 @@ public class SideImageCardAdapter extends RecyclerView.Adapter<SideImageCardAdap
 		public ImageView image;
 		public TextView title;
 		public TextView subTitle;
+		public TextView buttonText;
+		public View divider;
 		public CardView cardView;
 		public SideImageCardViewHolder(View view){
 			super(view);
@@ -33,6 +36,8 @@ public class SideImageCardAdapter extends RecyclerView.Adapter<SideImageCardAdap
 			title = (TextView) view.findViewById(R.id.titleText);
 			subTitle = (TextView) view.findViewById(R.id.subTitleText);
 			image = (ImageView) view.findViewById(R.id.sideImage);
+			buttonText = (TextView) view.findViewById(R.id.cardButtonTextView);
+			divider = view.findViewById(R.id.divider);
 		}
 	}
 
@@ -47,6 +52,15 @@ public class SideImageCardAdapter extends RecyclerView.Adapter<SideImageCardAdap
 		holder.image.setImageDrawable(cards.get(position).getImage());
 		holder.title.setText(cards.get(position).getTitle());
 		holder.subTitle.setText(cards.get(position).getSubtitle());
+		holder.buttonText.setText(cards.get(position).getButtonText());
+		if(cards.get(position).getDividerVisibility()){
+			holder.divider.setVisibility(View.VISIBLE);
+		} else {
+			holder.divider.setVisibility(View.INVISIBLE);
+		}
+
+		listener = cards.get(position).getOnClickListener();
+		holder.buttonText.setOnClickListener(listener);
 	}
 
 	@Override

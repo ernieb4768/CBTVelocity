@@ -71,7 +71,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
 	private void setAnimation(View viewToAnimate, int position){
 		if(position > lastPosition){
-			Animation animation = AnimationUtils.loadAnimation(App.getContext(), android.R.anim.slide_in_left);
+			Animation animation = AnimationUtils.loadAnimation(App.getContext(), R.anim.slide_up);
 			viewToAnimate.startAnimation(animation);
 			lastPosition = position;
 		}

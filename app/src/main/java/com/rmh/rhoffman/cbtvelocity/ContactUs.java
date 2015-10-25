@@ -1,8 +1,11 @@
 package com.rmh.rhoffman.cbtvelocity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.blunderer.materialdesignlibrary.activities.Activity;
 import com.blunderer.materialdesignlibrary.handlers.ActionBarDefaultHandler;
@@ -51,6 +54,7 @@ public class ContactUs extends Activity{
 		address.setTitle("Mailing Address");
 		address.setSubtitle(R.string.address);
 		address.setImage(R.mipmap.ic_cbt_circle);
+		address.setDividerVisibility(false);
 		cards.add(address);
 	}
 
@@ -61,15 +65,15 @@ public class ContactUs extends Activity{
 		phone.setTitle("Phone Number");
 		phone.setSubtitle("(330)-477-6267");
 		phone.setImage(R.mipmap.ic_cbt_circle);
-		//phone.setLeftButtonText("Call");
-		/*phone.setOnLeftButtonPressedListener(new OnButtonPressListener(){
+		phone.setButtonText("CALL");
+		phone.setOnClickListener(new View.OnClickListener(){
 			@Override
-			public void onButtonPressedListener(View view, Card card){
+			public void onClick(View view){
 				Intent call = new Intent(Intent.ACTION_DIAL);
 				call.setData(Uri.parse("tel:3304776267"));
 				startActivity(call);
 			}
-		});*/
+		});
 		cards.add(phone);
 	}
 
@@ -80,15 +84,15 @@ public class ContactUs extends Activity{
 		email.setTitle("Email Address");
 		email.setSubtitle("mshulze@cantonbaptist.org");
 		email.setImage(R.mipmap.ic_mike_shulze);
-		//email.setLeftButtonText("Email");
-		/*email.setOnLeftButtonPressedListener(new OnButtonPressListener(){
+		email.setButtonText("EMAIL");
+		email.setOnClickListener(new View.OnClickListener(){
 			@Override
-			public void onButtonPressedListener(View view, Card card){
+			public void onClick(View view){
 				Intent email = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "mshulze@cantonbaptist.org", null));
 				email.putExtra(Intent.EXTRA_SUBJECT, "Requesting Information");
 				startActivity(Intent.createChooser(email, "Send Email"));
 			}
-		});*/
+		});
 		cards.add(email);
 	}
 
