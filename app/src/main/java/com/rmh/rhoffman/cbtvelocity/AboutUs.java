@@ -128,7 +128,7 @@ public class AboutUs extends Fragment{
 		fabCall.startAnimation(animation);
 		fabMail.startAnimation(animation);
 
-		fabMain.setImageDrawable(ContextCompat.getDrawable(App.getContext(), R.drawable.ic_close));
+		fabMain.setImageDrawable(ContextCompat.getDrawable(App.getContext(), R.drawable.ic_action_close));
 	}
 
 	public void animateAdditionalFABsOut(){
@@ -154,7 +154,7 @@ public class AboutUs extends Fragment{
 		fabCall.startAnimation(animation);
 		fabMail.startAnimation(animation);
 
-		fabMain.setImageDrawable(ContextCompat.getDrawable(App.getContext(), R.drawable.ic_plus_sign));
+		fabMain.setImageDrawable(ContextCompat.getDrawable(App.getContext(), R.drawable.ic_action_add));
 	}
 	
 }
