@@ -29,6 +29,7 @@ public class MainActivity extends NavigationDrawerActivity{
 
 		int orientation = getResources().getConfiguration().orientation;
 
+		// Fragment Transaction is completed with commit() in the if statement below.
 		ft = getSupportFragmentManager().beginTransaction();
 
 		if(getSupportFragmentManager().findFragmentByTag("TaskFragment") == null){

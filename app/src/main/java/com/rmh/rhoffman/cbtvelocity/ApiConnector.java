@@ -1,19 +1,17 @@
 package com.rmh.rhoffman.cbtvelocity;
 
+import android.os.Build;
 import android.util.Log;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * Class to assist in connecting to an external database.
@@ -22,48 +20,42 @@ public class ApiConnector{
 
 	public JSONArray getAllActivities(){
 
-		// URL to the php script on the server
-		String url = "http://174.100.202.101/getAllActivities.php";
+		/**
+		 * This talks to a php script at the specified URL. That script query's the database for
+		 * the necessary data, sorts it, and sends it back. The will then convert it to a JSONArray
+		 * and return that array.
+		 */
 
-		// Get HttpResponse Object from the url then get HttpEntity from HttpResponse
-		HttpEntity httpEntity = null;
+		HttpURLConnection urlConnection = null;
+		JSONArray jsonArray = null;
+		String inputStream;
 
+		// Use try/catch block to handle exceptions, both network and JSON.
 		try{
-			DefaultHttpClient defaultHttpClient = new DefaultHttpClient();
 
-			HttpParams params = new BasicHttpParams();
-			int timeoutConnection = 3000;
-			HttpConnectionParams.setConnectionTimeout(params, timeoutConnection);
-			int timeoutSocket = 5000;
-			HttpConnectionParams.setSoTimeout(params, timeoutSocket);
+			// The url that points to the php script.
+			URL url = new URL("http://174.100.202.101/getAllActivities.php");
+			// Define, open the connection, and connect to the database.
+			urlConnection = (HttpURLConnection) url.openConnection();
+			urlConnection.connect();
+			InputStream stream = urlConnection.getInputStream();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+			StringBuilder builder = new StringBuilder();
+			String input;
 
-			HttpGet httpGet = new HttpGet(url);
-			defaultHttpClient.setParams(params);
+			while((input = reader.readLine()) != null){
+				builder.append(input);
+			}
 
-			HttpResponse httpResponse = defaultHttpClient.execute(httpGet);
+			Log.d("JSONArray: ", builder.toString());
+			jsonArray = new JSONArray(builder.toString());
 
-			httpEntity = httpResponse.getEntity();
-		} catch(IOException e){
+		} catch(IOException | JSONException e){
+			// Handle any exceptions here.
 			e.printStackTrace();
 
 			return new JSONArray();
 
-		}
-
-		// Convert the HttpEntity into JSONArray.
-		JSONArray jsonArray = null;
-
-		if(httpEntity != null){
-			try{
-				String entityResponse = EntityUtils.toString(httpEntity);
-
-				jsonArray = new JSONArray(entityResponse);
-
-				Log.d("Entity response: ", entityResponse);
-
-			} catch(JSONException | IOException e){
-				e.printStackTrace();
-			}
 		}
 
 		return jsonArray;

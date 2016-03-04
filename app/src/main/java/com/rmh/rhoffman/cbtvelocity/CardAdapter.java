@@ -28,6 +28,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
 	}
 
+	// Creates the container to hold the view. To expand the view to contain more information
+	// you have to add the additional widgets here, in the layout, and in the Card.java file.
 	public static class CardViewHolder extends RecyclerView.ViewHolder {
 		public ImageView image;
 		public TextView text;
@@ -42,6 +44,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
 	@Override
 	public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+		// Inflate the layout and return the view.
 		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_layout, parent, false);
 		return new CardViewHolder(view);
 	}
@@ -49,6 +52,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 	@Override
 	public void onBindViewHolder(final CardViewHolder holder, int position){
 
+		// Gets contents from the array from the database and puts in into the ViewHolder.
+		// Always check if value returned from db is null before adding to holder.
 		if(array.get(position).getImageURL() != null){
 			Picasso.with(App.getContext()).load(array.get(position).getImageURL()).into(holder.image);
 			holder.text.setText(array.get(position).getTitle());
@@ -57,7 +62,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 			holder.text.setText(array.get(position).getTitle());
 		}
 
-
+		// On Lollipop and above, apply animations to the FAB.
+		// Code will be skipped on pre-lollipop devices.
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
 			setAnimation(holder.cardView, position);
 		}
@@ -69,6 +75,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 		holder.cardView.clearAnimation();
 	}
 
+	// Sets an animation on the FAB for Lollipop and above.
+	// Code will be skipped for pre-lollipop devices.
 	private void setAnimation(View viewToAnimate, int position){
 		if(position > lastPosition){
 			Animation animation = AnimationUtils.loadAnimation(App.getContext(), R.anim.slide_up);
