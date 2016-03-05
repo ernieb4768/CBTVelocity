@@ -58,6 +58,9 @@ public class SideImageCardAdapter extends RecyclerView.Adapter<SideImageCardAdap
 		} else {
 			holder.divider.setVisibility(View.INVISIBLE);
 		}
+		if(cards.get(position).getButtonGone()){
+			holder.buttonText.setVisibility(View.GONE);
+		}
 
 		listener = cards.get(position).getOnClickListener();
 		holder.buttonText.setOnClickListener(listener);

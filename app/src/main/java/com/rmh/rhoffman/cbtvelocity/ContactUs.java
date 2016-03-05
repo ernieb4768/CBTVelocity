@@ -51,10 +51,11 @@ public class ContactUs extends Activity{
 
 	private void setUpAddress(){
 		SideImageCard address = new SideImageCard();
-		address.setTitle("Mailing Address");
+		address.setTitle(R.string.address_title);
 		address.setSubtitle(R.string.address);
 		address.setImage(R.mipmap.ic_cbt_circle);
 		address.setDividerVisibility(false);
+		address.setButtonGone(true);
 		cards.add(address);
 	}
 
