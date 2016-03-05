@@ -77,19 +77,19 @@ public class ContactUs extends Activity{
 		cards.add(phone);
 	}
 
-	// This sets up a card with Mike Shulze's email address, and has a button in the bottom left that will open a chooser dialog to
-	// allow the user to pick their preferred email app, which will start an email to Mike with the subject Requesting Information.
+	// This sets up a card with Ben Jennings' email address, and has a button in the bottom left that will open a chooser dialog to
+	// allow the user to pick their preferred email app, which will start an email to Ben with the subject Requesting Information.
 	private void setUpEmail(){
 		SideImageCard email = new SideImageCard();
 		email.setTitle("Email Address");
-		email.setSubtitle("mshulze@cantonbaptist.org");
-		email.setImage(R.mipmap.ic_mike_shulze);
+		email.setSubtitle("bjennings@cantonbaptist.org");
+		email.setImage(R.mipmap.ic_ben_jennings);
 		email.setButtonText("EMAIL");
 		email.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View view){
-				Intent email = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "mshulze@cantonbaptist.org", null));
-				email.putExtra(Intent.EXTRA_SUBJECT, "Requesting Information");
+				Intent email = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "bjennings@cantonbaptist.org", null));
+				email.putExtra(Intent.EXTRA_SUBJECT, "Requesting Information about Velocity");
 				startActivity(Intent.createChooser(email, "Send Email"));
 			}
 		});

@@ -1,20 +1,14 @@
 package com.rmh.rhoffman.cbtvelocity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.widget.NestedScrollView;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -39,7 +33,6 @@ public class AboutUs extends Fragment{
 		// Required empty public constructor
 	}
 	
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState){
@@ -47,7 +40,6 @@ public class AboutUs extends Fragment{
 		rootView = inflater.inflate(R.layout.fragment_about_us, container, false);
 
 		scrollView = (ScrollView) rootView.findViewById(R.id.scrollViewAbout);
-		listenForScroll();
 
 		ImageView imageView = (ImageView) rootView.findViewById(R.id.velocity_image);
 		Picasso.with(App.getContext())
@@ -68,10 +60,6 @@ public class AboutUs extends Fragment{
 
 		// Inflate the layout for this fragment
 		return rootView;
-	}
-
-	private void listenForScroll(){
-
 	}
 
 	public void setAdditionalFABs(){
@@ -96,8 +84,8 @@ public class AboutUs extends Fragment{
 			fabMail.setOnClickListener(new View.OnClickListener(){
 				@Override
 				public void onClick(View view){
-					Intent email = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "mshulze@cantonbaptist.org", null));
-					email.putExtra(Intent.EXTRA_SUBJECT, "Requesting Information");
+					Intent email = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "bjennings@cantonbaptist.org", null));
+					email.putExtra(Intent.EXTRA_SUBJECT, "Requesting Information about Velocity");
 					startActivity(Intent.createChooser(email, "Send Email"));
 				}
 			});
