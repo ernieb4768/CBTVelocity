@@ -1,6 +1,5 @@
 package com.rmh.rhoffman.cbtvelocity;
 
-import android.os.Build;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -11,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -18,13 +18,12 @@ import java.net.URL;
  */
 public class ApiConnector{
 
+	/**
+	 * This talks to a php script at the specified URL. That script query's the database for
+	 * the necessary data, sorts it, and sends it back. The will then convert it to a JSONArray
+	 * and return that array.
+	 */
 	public JSONArray getAllActivities(){
-
-		/**
-		 * This talks to a php script at the specified URL. That script query's the database for
-		 * the necessary data, sorts it, and sends it back. The will then convert it to a JSONArray
-		 * and return that array.
-		 */
 
 		HttpURLConnection urlConnection = null;
 		JSONArray jsonArray = null;
@@ -56,6 +55,40 @@ public class ApiConnector{
 
 			return new JSONArray();
 
+		}
+
+		return jsonArray;
+
+	}
+
+	public JSONArray getNotifications(){
+
+		HttpURLConnection urlConnection = null;
+		JSONArray jsonArray = null;
+
+		try{
+
+			URL url = new URL("http://174.100.202.101/getNotifications.php");
+
+			urlConnection = (HttpURLConnection) url.openConnection();
+			urlConnection.connect();
+
+			InputStream stream = urlConnection.getInputStream();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+			StringBuilder builder = new StringBuilder();
+			String input;
+
+			while((input = reader.readLine()) != null){
+				builder.append(input);
+			}
+
+			Log.d("JSONArray: ", builder.toString());
+			jsonArray = new JSONArray(builder.toString());
+
+		} catch(IOException | JSONException e){
+			e.printStackTrace();
+
+			return new JSONArray();
 		}
 
 		return jsonArray;

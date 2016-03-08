@@ -1,11 +1,17 @@
 package com.rmh.rhoffman.cbtvelocity;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,6 +39,9 @@ public class Activities extends Fragment{
 	private CardMakerTask task;
 	private Activity activity;
 	private ArrayList<Card> list;
+	private int NOTIFICATION_ID = 1;
+	private String NOTIFICATION_TITLE;
+	private String NOTIFICATION_CONTENT;
 
 	public Activities(){
 		// Required empty public constructor
@@ -122,6 +131,22 @@ public class Activities extends Fragment{
 			}
 		});
 		swipe.setColorSchemeResources(R.color.accent);
+	}
+
+	private void sendNotification(){
+		NotificationCompat.Builder builder = new NotificationCompat.Builder(App.getContext());
+		builder.setSmallIcon(R.mipmap.ic_v_notification);
+		builder.setContentTitle(NOTIFICATION_TITLE);
+		builder.setContentText(NOTIFICATION_CONTENT);
+
+		Intent intent = new Intent(App.getContext(), Activities.class);
+		PendingIntent pendingIntent = PendingIntent.getActivity(App.getContext(), 0, intent, 0);
+
+		//builder.setContentIntent(pendingIntent);
+
+		NotificationManager manager = (NotificationManager) App.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+		manager.notify(NOTIFICATION_ID, builder.build());
+		NOTIFICATION_ID++;
 	}
 
 	public void addCardsToRecyclerView(ArrayList<Card> list){
