@@ -6,6 +6,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -42,6 +44,8 @@ public class Activities extends Fragment{
 	private int NOTIFICATION_ID = 1;
 	private String NOTIFICATION_TITLE;
 	private String NOTIFICATION_CONTENT;
+	private boolean WIFI_CONNECTION = false;
+	private boolean MOBILE_CONNECTION = false;
 
 	public Activities(){
 		// Required empty public constructor
@@ -60,8 +64,7 @@ public class Activities extends Fragment{
 		parentView = inflater.inflate(R.layout.fragment_activities, container, false);
 
 		setupSwipeToRefresh();
-
-		new CardMakerTask(this.getActivity(), this).execute(new CardMaker());
+		getNetworkConnectivity();
 
 		recyclerView = (RecyclerView) parentView.findViewById(R.id.recyclerView);
 		layoutManager = new LinearLayoutManager(App.getContext());
@@ -131,6 +134,22 @@ public class Activities extends Fragment{
 			}
 		});
 		swipe.setColorSchemeResources(R.color.accent);
+	}
+
+	private void getNetworkConnectivity(){
+		ConnectivityManager connectivityManager = (ConnectivityManager) this.getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+		if(networkInfo != null && networkInfo.isConnected()){
+			WIFI_CONNECTION = networkInfo.getType() == ConnectivityManager.TYPE_WIFI;
+			MOBILE_CONNECTION = networkInfo.getType() == ConnectivityManager.TYPE_MOBILE;
+			if(WIFI_CONNECTION){
+				Log.d("NETWORK: ", "Wifi Connection");
+				new CardMakerTask(this.getActivity(), this).execute(new CardMaker());
+			} else if(MOBILE_CONNECTION){
+				Log.d("NEWTORK: ", "Mobile Connection");
+				new CardMakerTask(this.getActivity(), this).execute(new CardMaker());
+			}
+		}
 	}
 
 	private void sendNotification(){

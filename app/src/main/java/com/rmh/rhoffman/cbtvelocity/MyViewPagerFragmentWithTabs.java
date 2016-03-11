@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.blunderer.materialdesignlibrary.fragments.ViewPagerFragment;
-import com.blunderer.materialdesignlibrary.fragments.ViewPagerWithTabsFragment;
 import com.blunderer.materialdesignlibrary.handlers.ViewPagerHandler;
 
 
