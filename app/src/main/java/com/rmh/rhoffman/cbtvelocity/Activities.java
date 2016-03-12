@@ -201,17 +201,14 @@ public class Activities extends Fragment{
 			} else {
 				int len = jsonArray.length();
 
-				String s = "";
-				String t = "";
-
 				if(len >= 1){
 					for(int i = 0; i < len; i++){
 						try{
 							JSONObject object = jsonArray.getJSONObject(i);
 
 							Card card = new Card();
-							card.setTitle(s + object.getString("DESCRIPTION"));
-							card.setImageURL(t + object.getString("IMAGE"));
+							card.setTitle(object.getString("DESCRIPTION"));
+							card.setImageURL(object.getString("IMAGE"));
 							list.add(card);
 						} catch(JSONException e){
 							e.printStackTrace();
@@ -232,29 +229,6 @@ public class Activities extends Fragment{
 			return card;
 		}
 
-	}
-
-	private class CardMakerTaskA extends AsyncTask<CardMaker, Long, ArrayList<Card>>{
-		@Override
-		protected void onPreExecute(){
-			swipe.post(new Runnable(){
-				@Override
-				public void run(){
-					swipe.setRefreshing(true);
-				}
-			});
-		}
-
-		@Override
-		protected ArrayList<Card> doInBackground(CardMaker... params){
-			return params[0].createCards(new ApiConnector().getAllActivities());
-		}
-
-		@Override
-		protected void onPostExecute(ArrayList<Card> cards){
-			addCardsToRecyclerView(cards);
-			swipe.setRefreshing(false);
-		}
 	}
 
 	private class RefreshPage extends AsyncTask<CardMaker, Long, ArrayList<Card>>{

@@ -28,16 +28,7 @@ public class CardMakerTask extends AsyncTask<Activities.CardMaker, Long, ArrayLi
 
 	@Override
 	protected void onPreExecute(){
-		// Necessary in order to show the circular progress bar before content is loaded. Without this code setRefreshing(true)
-		// does not work because this method is called before the fragment has completed onCreateView().
-		//if(activity != null && activities != null){
-			/*activities.swipe.post(new Runnable(){
-				@Override
-				public void run(){
-					activities.swipe.setRefreshing(true);
-				}
-			});*/
-		//}
+
 	}
 
 	@Override
