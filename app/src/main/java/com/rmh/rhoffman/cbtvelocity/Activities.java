@@ -146,7 +146,7 @@ public class Activities extends Fragment{
 				Log.d("NETWORK: ", "Wifi Connection");
 				new CardMakerTask(this.getActivity(), this).execute(new CardMaker());
 			} else if(MOBILE_CONNECTION){
-				Log.d("NEWTORK: ", "Mobile Connection");
+				Log.d("NETWORK: ", "Mobile Connection");
 				new CardMakerTask(this.getActivity(), this).execute(new CardMaker());
 			}
 		}
