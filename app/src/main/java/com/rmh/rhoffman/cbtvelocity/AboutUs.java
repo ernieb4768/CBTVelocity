@@ -67,12 +67,13 @@ public class AboutUs extends Fragment{
 		if(FAB_VISIBILITY == 0){
 			animateAdditionalFABsIn();
 			FAB_VISIBILITY = 1;
-		} else if(FAB_VISIBILITY == 1){
+		} else {
 			animateAdditionalFABsOut();
 			FAB_VISIBILITY = 0;
 		}
 
-		if(fabCall.getVisibility() == View.VISIBLE && fabMail.getVisibility() == View.VISIBLE){
+		//fabCall.getVisibility() == View.VISIBLE && fabMail.getVisibility() == View.VISIBLE
+		if(FAB_VISIBILITY == 1){
 			fabCall.setOnClickListener(new View.OnClickListener(){
 				@Override
 				public void onClick(View view){

@@ -5,11 +5,13 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
@@ -46,6 +48,8 @@ public class Activities extends Fragment{
 	private String NOTIFICATION_CONTENT;
 	private boolean WIFI_CONNECTION = false;
 	private boolean MOBILE_CONNECTION = false;
+	private SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(App.getContext());
+	private boolean checkBox = sp.getBoolean("sync_frequency", false);
 
 	public Activities(){
 		// Required empty public constructor
@@ -130,22 +134,34 @@ public class Activities extends Fragment{
 		swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
 			@Override
 			public void onRefresh(){
-				new RefreshPage().execute(new CardMaker());
+				// Use wifi connection first if available; otherwise, make sure
+				// the user allows it and use mobile connection.
+				if(WIFI_CONNECTION){
+					new RefreshPage().execute(new CardMaker());
+				} else if(MOBILE_CONNECTION && !checkBox){
+					new RefreshPage().execute(new CardMaker());
+				}
+
 			}
 		});
 		swipe.setColorSchemeResources(R.color.accent);
 	}
 
 	private void getNetworkConnectivity(){
+		// Request connection type from the system
 		ConnectivityManager connectivityManager = (ConnectivityManager) this.getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
 		if(networkInfo != null && networkInfo.isConnected()){
 			WIFI_CONNECTION = networkInfo.getType() == ConnectivityManager.TYPE_WIFI;
 			MOBILE_CONNECTION = networkInfo.getType() == ConnectivityManager.TYPE_MOBILE;
+			// Checks to see if the connection is Wifi, and if so uses it
 			if(WIFI_CONNECTION){
 				Log.d("NETWORK: ", "Wifi Connection");
 				new CardMakerTask(this.getActivity(), this).execute(new CardMaker());
-			} else if(MOBILE_CONNECTION){
+			// Checks to see if the connections is Mobile, if it is it will also make sure that
+			// the user allows us to use their mobile data before we connect
+			} else if(MOBILE_CONNECTION && !checkBox){
 				Log.d("NETWORK: ", "Mobile Connection");
 				new CardMakerTask(this.getActivity(), this).execute(new CardMaker());
 			}
