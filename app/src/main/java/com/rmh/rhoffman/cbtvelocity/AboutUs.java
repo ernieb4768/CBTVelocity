@@ -62,6 +62,30 @@ public class AboutUs extends Fragment{
 		return rootView;
 	}
 
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+		super.setUserVisibleHint(isVisibleToUser);
+
+		if(!isVisibleToUser){
+			hideFABs();
+		}
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		hideFABs();
+	}
+
+	private void hideFABs(){
+		if(FAB_VISIBILITY == 1) {
+			FAB_VISIBILITY = 0;
+			fabCall.setVisibility(View.INVISIBLE);
+			fabMail.setVisibility(View.INVISIBLE);
+			fabMain.setImageDrawable(ContextCompat.getDrawable(App.getContext(), R.drawable.ic_action_add));
+		}
+	}
+
 	public void setAdditionalFABs(){
 
 		if(FAB_VISIBILITY == 0){

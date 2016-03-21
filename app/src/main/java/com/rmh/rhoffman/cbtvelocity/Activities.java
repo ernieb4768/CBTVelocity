@@ -149,7 +149,8 @@ public class Activities extends Fragment{
 
 	private void getNetworkConnectivity(){
 		// Request connection type from the system
-		ConnectivityManager connectivityManager = (ConnectivityManager) this.getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+		ConnectivityManager connectivityManager =
+				(ConnectivityManager) this.getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
 		if(networkInfo != null && networkInfo.isConnected()){

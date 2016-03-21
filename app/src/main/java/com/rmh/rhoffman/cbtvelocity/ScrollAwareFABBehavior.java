@@ -12,7 +12,12 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 /**
- * Class to control the scrolling animations on the FAB.
+ * Class to control the FAB animations during a scroll event.
+ *
+ * It should animate the mini FABs out first, then once they are gone the main
+ * FAB will shrink out. Any scroll event in any direction should animate the
+ * mini FABs out, but only a scroll down will animate the main FAB out. On scroll
+ * up it will animate back in.
  */
 public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
 
