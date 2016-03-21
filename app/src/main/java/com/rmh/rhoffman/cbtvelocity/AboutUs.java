@@ -2,6 +2,7 @@ package com.rmh.rhoffman.cbtvelocity;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -40,6 +42,21 @@ public class AboutUs extends Fragment{
 		rootView = inflater.inflate(R.layout.fragment_about_us, container, false);
 
 		scrollView = (ScrollView) rootView.findViewById(R.id.scrollViewAbout);
+
+		scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				ViewTreeObserver observer = scrollView.getViewTreeObserver();
+				observer.removeOnGlobalLayoutListener(this);
+
+				observer.addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+					@Override
+					public void onScrollChanged() {
+						hideFABs();
+					}
+				});
+			}
+		});
 
 		ImageView imageView = (ImageView) rootView.findViewById(R.id.velocity_image);
 		Picasso.with(App.getContext())
