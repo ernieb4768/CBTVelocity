@@ -106,12 +106,13 @@ public class MainActivity extends NavigationDrawerActivity{
 	public NavigationDrawerTopHandler getNavigationDrawerTopHandler(){
 		String cbtURL = "http://www.cantonbaptist.org";
 		String facebookURL = "https://www.facebook.com/cbt.velocity";
-		//String facebookURL = "fb://feed/{cbt.velocity}";
+		String instagramURL = "https://www.instagram.com/velocity_cbt";
 		String velocityURL = "http://www.cantonbaptist.org/ministries/high-school";
 
 		return new NavigationDrawerTopHandler(App.getContext())
 				.addItem("Learn More", R.mipmap.ic_velocity_circle, new Intent(Intent.ACTION_VIEW).setData(Uri.parse(velocityURL)))
 				.addItem("Facebook", R.mipmap.ic_facebook_circle, new Intent(Intent.ACTION_VIEW).setData(Uri.parse(facebookURL)))
+				.addItem("Instagram", R.mipmap.ic_instagram, new Intent(Intent.ACTION_VIEW).setData(Uri.parse(instagramURL)))
 				.addItem("CBT", R.mipmap.ic_cbt_circle, new Intent(Intent.ACTION_VIEW).setData(Uri.parse(cbtURL)));
 	}
 
