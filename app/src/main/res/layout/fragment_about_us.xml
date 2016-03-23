@@ -133,7 +133,6 @@
 			android:layout_gravity="center"
 			android:src="@drawable/ic_phone_call"
 			android:visibility="invisible"
-			app:fabSize="mini"
 			app:elevation="6dp"
 			app:borderWidth="0dp"
 			app:backgroundTint="@color/primary_dark"/>
@@ -147,7 +146,6 @@
 			android:layout_gravity="center"
 			android:src="@drawable/ic_send_email"
 			android:visibility="invisible"
-			app:fabSize="mini"
 			app:elevation="6dp"
 			app:borderWidth="0dp"
 			app:backgroundTint="@color/primary_dark"/>
@@ -161,8 +159,7 @@
 			android:src="@drawable/ic_action_add"
 			app:elevation="6dp"
 			app:borderWidth="0dp"
-			app:backgroundTint="@color/accent"
-			app:layout_behavior="com.rmh.rhoffman.cbtvelocity.ScrollAwareFABBehavior"/>
+			app:backgroundTint="@color/accent" />
 
 	</LinearLayout>
 

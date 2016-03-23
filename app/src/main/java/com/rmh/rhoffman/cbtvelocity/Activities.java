@@ -1,6 +1,7 @@
 package com.rmh.rhoffman.cbtvelocity;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -15,7 +16,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -50,6 +50,7 @@ public class Activities extends Fragment{
 	private boolean MOBILE_CONNECTION = false;
 	private SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(App.getContext());
 	private boolean checkBox = sp.getBoolean("sync_frequency", false);
+	private PendingIntent pendingIntent;
 
 	public Activities(){
 		// Required empty public constructor
@@ -59,6 +60,20 @@ public class Activities extends Fragment{
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 
+		// Retrieve a PendingIntent that will perform a broadcast.
+		Intent alarmIntent = new Intent(App.getContext(), AlarmReceiver.class);
+		pendingIntent = PendingIntent.getBroadcast(App.getContext(), 0, alarmIntent, 0);
+
+		start();
+
+	}
+
+	private void start(){
+		AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+		int interval = 60 * 1000;
+
+		alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
+		Log.d("AlarmManager ", "Alarm set");
 	}
 	
 	@Override

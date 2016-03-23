@@ -36,6 +36,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rmh.rhoffman.cbtvelocity.MainActivity" />
         </activity>
+        <receiver android:name=".AlarmReceiver">
+
+        </receiver>
     </application>
 
 </manifest>
