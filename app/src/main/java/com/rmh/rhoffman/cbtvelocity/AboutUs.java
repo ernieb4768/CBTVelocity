@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,7 @@ public class AboutUs extends Fragment{
 
 		scrollView = (ScrollView) rootView.findViewById(R.id.scrollViewAbout);
 
+		// Set a listener on the ScrollView.
 		scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
@@ -52,7 +54,10 @@ public class AboutUs extends Fragment{
 				observer.addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
 					@Override
 					public void onScrollChanged() {
-						hideFABs();
+						if(FAB_VISIBILITY == 1){
+							Log.d("ScrollListener", "Scroll Event");
+							hideFABs();
+						}
 					}
 				});
 			}
@@ -94,12 +99,13 @@ public class AboutUs extends Fragment{
 		hideFABs();
 	}
 
+	// Called on any scroll event in any direction.
+	// If the additional FABs are shown this will hide them as soon as there is a scroll event.
 	private void hideFABs(){
 		if(FAB_VISIBILITY == 1) {
 			FAB_VISIBILITY = 0;
-			fabCall.setVisibility(View.INVISIBLE);
-			fabMail.setVisibility(View.INVISIBLE);
-			fabMain.setImageDrawable(ContextCompat.getDrawable(App.getContext(), R.drawable.ic_action_add));
+
+			animateAdditionalFABsOut();
 		}
 	}
 
