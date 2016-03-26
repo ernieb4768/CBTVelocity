@@ -10,6 +10,7 @@ public class Card{
 	private String title;
 	private Drawable image;
 	private String imageURL;
+	private OnCardClickListener listener;
 
 	public Card(){
 
@@ -51,6 +52,18 @@ public class Card{
 
 	public String getImageURL(){
 		return imageURL;
+	}
+
+	public interface OnCardClickListener {
+		void onClick();
+	}
+
+	public void setOnCardClickListener(OnCardClickListener listener){
+		this.listener = listener;
+	}
+
+	public OnCardClickListener getOnCardClickListener(){
+		return listener;
 	}
 
 }

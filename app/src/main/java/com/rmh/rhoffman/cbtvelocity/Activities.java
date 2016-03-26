@@ -43,9 +43,6 @@ public class Activities extends Fragment{
 	private CardMakerTask task;
 	private Activity activity;
 	private ArrayList<Card> list;
-	private int NOTIFICATION_ID = 1;
-	private String NOTIFICATION_TITLE;
-	private String NOTIFICATION_CONTENT;
 	private boolean WIFI_CONNECTION = false;
 	private boolean MOBILE_CONNECTION = false;
 	private SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(App.getContext());
@@ -184,22 +181,6 @@ public class Activities extends Fragment{
 		}
 	}
 
-	private void sendNotification(){
-		NotificationCompat.Builder builder = new NotificationCompat.Builder(App.getContext());
-		builder.setSmallIcon(R.mipmap.ic_v_notification);
-		builder.setContentTitle(NOTIFICATION_TITLE);
-		builder.setContentText(NOTIFICATION_CONTENT);
-
-		Intent intent = new Intent(App.getContext(), Activities.class);
-		PendingIntent pendingIntent = PendingIntent.getActivity(App.getContext(), 0, intent, 0);
-
-		//builder.setContentIntent(pendingIntent);
-
-		NotificationManager manager = (NotificationManager) App.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-		manager.notify(NOTIFICATION_ID, builder.build());
-		NOTIFICATION_ID++;
-	}
-
 	public void addCardsToRecyclerView(ArrayList<Card> list){
 		this.list = list;
 		adapter = new CardAdapter(list);
@@ -225,6 +206,12 @@ public class Activities extends Fragment{
 							Card card = new Card();
 							card.setTitle(object.getString("DESCRIPTION"));
 							card.setImageURL(object.getString("IMAGE"));
+							card.setOnCardClickListener(new Card.OnCardClickListener() {
+								@Override
+								public void onClick() {
+
+								}
+							});
 							list.add(card);
 						} catch(JSONException e){
 							e.printStackTrace();
