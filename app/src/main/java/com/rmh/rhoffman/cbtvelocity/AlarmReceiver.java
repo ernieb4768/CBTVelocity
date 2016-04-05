@@ -8,6 +8,8 @@ import android.widget.Toast;
  * A BroadcastReceiver extension to set an alarm that fires every 24 hours and triggers the app to check for new
  * notifications. If there are new ones received it will send it to the user.
  */
+
+// FIXME: Not working
 public class AlarmReceiver extends BroadcastReceiver {
 
 	@Override

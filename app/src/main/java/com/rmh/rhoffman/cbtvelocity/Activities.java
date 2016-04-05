@@ -141,6 +141,7 @@ public class Activities extends Fragment{
 	 * can immediately refresh the content.
 	 */
 	private void setupSwipeToRefresh(){
+		// Set up the layout by getting the resource id then set a listener.
 		swipe = (SwipeRefreshLayout) parentView.findViewById(R.id.swipe);
 		swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
 			@Override
@@ -155,48 +156,62 @@ public class Activities extends Fragment{
 
 			}
 		});
+		// Set the color as the accent color.
 		swipe.setColorSchemeResources(R.color.accent);
 	}
 
+	/**
+	 * First find out if there is an established network connection, and if there is a connection available find out if
+	 * it is a wifi network or if it is a mobile network.
+	 *
+	 * This is used to save user data. In preferences, the user can choose to not use a mobile connection. This will
+	 * save data, but it will mean the content cannot be updated or refreshed until they are back on wifi. When available,
+	 * wifi connection is always used first.
+	 */
 	private void getNetworkConnectivity(){
-		// Request connection type from the system
+		// Request connection type from the system.
 		ConnectivityManager connectivityManager =
 				(ConnectivityManager) this.getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
+		// Ensure networkInfo has gotten the active network info and make sure connection is established.
 		if(networkInfo != null && networkInfo.isConnected()){
 			WIFI_CONNECTION = networkInfo.getType() == ConnectivityManager.TYPE_WIFI;
 			MOBILE_CONNECTION = networkInfo.getType() == ConnectivityManager.TYPE_MOBILE;
-			// Checks to see if the connection is Wifi, and if so uses it
+			// Checks to see if the connection is Wifi, and if so uses it.
 			if(WIFI_CONNECTION){
-				Log.d("NETWORK: ", "Wifi Connection");
 				new CardMakerTask(this.getActivity(), this).execute(new CardMaker());
 			// Checks to see if the connections is Mobile, if it is it will also make sure that
-			// the user allows us to use their mobile data before we connect
+			// the user allows us to use their mobile data before we connect.
 			} else if(MOBILE_CONNECTION && !checkBox){
-				Log.d("NETWORK: ", "Mobile Connection");
 				new CardMakerTask(this.getActivity(), this).execute(new CardMaker());
 			}
 		}
 	}
 
+	// Updates the recyclerview with the new adapter that actually contains the data.
 	public void addCardsToRecyclerView(ArrayList<Card> list){
 		this.list = list;
 		adapter = new CardAdapter(list);
 		recyclerView.setAdapter(adapter);
 	}
 
+	/**
+	 * This class takes the JSON data retrieved from the database and extracts it into individual Cards.
+	 */
 	public static class CardMaker{
 
 		private ArrayList<Card> list = new ArrayList<>();
 
 		public ArrayList<Card> createCards(JSONArray jsonArray){
 
+			// Make sure if nothing is retrieved from the database there is still something displayed other than an error.
 			if(jsonArray == null){
 				list.add(exceptionCard());
 			} else {
 				int len = jsonArray.length();
 
+				// Loop through the array and use the data from each loop to create a Card.
 				if(len >= 1){
 					for(int i = 0; i < len; i++){
 						try{
@@ -205,6 +220,8 @@ public class Activities extends Fragment{
 							Card card = new Card();
 							card.setTitle(object.getString("DESCRIPTION"));
 							card.setImageURL(object.getString("IMAGE"));
+							// Custom on click listener...Not currently working
+							// TODO: update setOnCardClickListener()
 							card.setOnCardClickListener(new Card.OnCardClickListener() {
 								@Override
 								public void onClick() {
@@ -223,6 +240,8 @@ public class Activities extends Fragment{
 			return list;
 		}
 
+		// An exceptionCard is a default case to handle any time an internet connection can't be established.
+		// It makes sure something is still displayed to the user so they know what happened.
 		private Card exceptionCard(){
 			Drawable drawable = ContextCompat.getDrawable(App.getContext(), R.mipmap.ic_frown);
 			Card card = new Card();
@@ -233,20 +252,27 @@ public class Activities extends Fragment{
 
 	}
 
+	/**
+	 * Async task so that it can get new content from the database on a background thread without freezing the main
+	 * UI thread. It also displays the Material styled circular refresh widget.
+	 */
 	private class RefreshPage extends AsyncTask<CardMaker, Long, ArrayList<Card>>{
 
 		@Override
 		protected void onPreExecute(){
+			// Done on main thread before the background thread starts.
 			swipe.setRefreshing(true);
 		}
 
 		@Override
 		protected ArrayList<Card> doInBackground(CardMaker... params){
+			// Done on the background thread.
 			return params[0].createCards(new ApiConnector().getAllActivities());
 		}
 
 		@Override
 		protected void onPostExecute(ArrayList<Card> cards){
+			// Done on the main thread after the background thread has finished executing.
 			recyclerView.removeAllViews();
 			addCardsToRecyclerView(cards);
 			swipe.setRefreshing(false);

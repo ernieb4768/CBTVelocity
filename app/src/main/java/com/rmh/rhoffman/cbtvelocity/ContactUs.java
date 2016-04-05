@@ -43,12 +43,15 @@ public class ContactUs extends Activity{
 		return new ActionBarDefaultHandler(this);
 	}
 
+	// Called during creation.
 	private void setUpCards(){
 		setUpAddress();
 		setUpPhone();
 		setUpEmail();
 	}
 
+	// Sets up a card with the church logo and the mailing address. It sets the button to GONE so that not only is it not
+	// visible, but it is actually destroyed.
 	private void setUpAddress(){
 		SideImageCard address = new SideImageCard();
 		address.setTitle(R.string.address_title);

@@ -44,6 +44,7 @@ public class CreditsListViewAdapter extends BaseAdapter{
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent){
 
+		// Set the views inside convertView if not done already.
 		ListCell cell;
 		if(convertView == null){
 			convertView = layoutInflater.inflate(R.layout.activity_credits, null);
@@ -62,6 +63,8 @@ public class CreditsListViewAdapter extends BaseAdapter{
 		return convertView;
 	}
 
+	// A simple cell so an image can be
+	// displayed next to the text.
 	private class ListCell{
 		private ImageView github;
 		private TextView textView;

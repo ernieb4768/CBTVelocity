@@ -3,16 +3,16 @@ package com.rmh.rhoffman.cbtvelocity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.IBinder;
 
 /**
  * Adds notifications to the app.
  */
+
+// FIXME: No notifications working currently
 public class NotificationService {
 
 	private static String TITLE;

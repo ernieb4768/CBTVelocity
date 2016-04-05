@@ -30,7 +30,7 @@ public class MyViewPagerFragmentWithTabs extends ViewPagerFragment{
 
 	}
 	
-	
+	// Create each of the pages in the viewPager and return them.
 	@Override
 	public ViewPagerHandler getViewPagerHandler(){
 
@@ -48,11 +48,13 @@ public class MyViewPagerFragmentWithTabs extends ViewPagerFragment{
 				.addPage(R.string.section2, aboutUs);
 	}
 
+	// Shows the first page on the far left as default.
 	@Override
 	public int defaultViewPagerPageSelectedPosition(){
 		return 0;
 	}
 
+	// Hides the indicator to show what page you are on.
 	@Override
 	public boolean showViewPagerIndicator(){
 		return false;
@@ -66,6 +68,7 @@ public class MyViewPagerFragmentWithTabs extends ViewPagerFragment{
 		setRetainInstance(true);
 	}
 
+	// Changes the title on the ActionBar as you scroll through the pages.
 	@Override
 	public boolean replaceActionBarTitleByViewPagerPageTitle() {
 		return true;

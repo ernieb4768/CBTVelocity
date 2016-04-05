@@ -5,7 +5,11 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 
 /**
- * A side image card class.
+ * A class similar to the standard Card class, but this is to hold all the data associated with
+ * a card that displays an image on the side with text and buttons to the right.
+ *
+ * The main characteristics are the image on the left side, a main title, additional content below,
+ * and a button to click to perform an action associated with the data on that specific card.
  */
 public class SideImageCard {
 

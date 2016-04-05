@@ -27,11 +27,14 @@ public class MainActivity extends NavigationDrawerActivity{
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 
+		// Stores orientation, ie Portrait or Landscape.
 		int orientation = getResources().getConfiguration().orientation;
 
 		// Fragment Transaction is completed with commit() in the if statement below.
 		ft = getSupportFragmentManager().beginTransaction();
 
+		// Attempts to restore the state on orientation change, so the fragment isn't
+		// destroyed and recreated every time the device is rotated.
 		if(getSupportFragmentManager().findFragmentByTag("TaskFragment") == null){
 			ft.add(R.id.fragment_container, new MyViewPagerFragmentWithTabs(), "TaskFragment");
 			ft.commit();
@@ -72,6 +75,7 @@ public class MainActivity extends NavigationDrawerActivity{
 		int id = item.getItemId();
 		
 		switch(id){
+			// Open the Credits activity if selected. Currently that's the only option.
 			case R.id.action_credits:
 				Intent credits = new Intent(App.getContext(), Credits.class);
 				startActivity(credits);
@@ -102,6 +106,7 @@ public class MainActivity extends NavigationDrawerActivity{
 
 	}
 
+	// The top part of the Navigation Drawer. This is where the CBT, Velocity, and social media website links are.
 	@Override
 	public NavigationDrawerTopHandler getNavigationDrawerTopHandler(){
 		String cbtURL = "http://www.cantonbaptist.org";
@@ -116,6 +121,7 @@ public class MainActivity extends NavigationDrawerActivity{
 				.addItem("CBT", R.mipmap.ic_cbt_circle, new Intent(Intent.ACTION_VIEW).setData(Uri.parse(cbtURL)));
 	}
 
+	// The bottom part of the Navigation Drawer. This is where the settings and contact parts are.
 	@Override
 	public NavigationDrawerBottomHandler getNavigationDrawerBottomHandler(){
 		return new NavigationDrawerBottomHandler(App.getContext())
@@ -135,6 +141,8 @@ public class MainActivity extends NavigationDrawerActivity{
 				});
 	}
 
+	// This is so the ActionBar stays visible when the drawer opens and so the hamburger menu
+	// animation is visible the whole time.
 	@Override
 	public boolean overlayActionBar(){
 		return false;

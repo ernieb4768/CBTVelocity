@@ -12,7 +12,12 @@ import java.util.ArrayList;
 
 /**
  * Custom recycler view adapter for a side image card.
+ *
+ * Now that I'm thinking about it, I'm not sure why I used a RecyclerView for non-scrolling content.
+ * I could have just used the layout editor and made it all static content...
  */
+
+// TODO: Replace with static content
 public class SideImageCardAdapter extends RecyclerView.Adapter<SideImageCardAdapter.SideImageCardViewHolder>{
 
 	public ArrayList<SideImageCard> cards;
@@ -22,7 +27,7 @@ public class SideImageCardAdapter extends RecyclerView.Adapter<SideImageCardAdap
 		this.cards = sideImageCards;
 	}
 
-
+	// Set up all of the views necessary for a SideImageCard.
 	public static class SideImageCardViewHolder extends RecyclerView.ViewHolder {
 		public ImageView image;
 		public TextView title;
@@ -41,12 +46,14 @@ public class SideImageCardAdapter extends RecyclerView.Adapter<SideImageCardAdap
 		}
 	}
 
+	// Inflate the view and return it.
 	@Override
 	public SideImageCardAdapter.SideImageCardViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
 		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.side_image_card_layout, parent, false);
 		return new SideImageCardViewHolder(view);
 	}
 
+	// Set all of the information necessary for each individual card.
 	@Override
 	public void onBindViewHolder(SideImageCardAdapter.SideImageCardViewHolder holder, int position){
 		holder.image.setImageDrawable(cards.get(position).getImage());
@@ -66,6 +73,7 @@ public class SideImageCardAdapter extends RecyclerView.Adapter<SideImageCardAdap
 		holder.buttonText.setOnClickListener(listener);
 	}
 
+	// Required so the recyclerView knows how many times to recycle the view.
 	@Override
 	public int getItemCount(){
 		return cards.size();

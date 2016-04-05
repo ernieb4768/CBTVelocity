@@ -2,7 +2,6 @@ package com.rmh.rhoffman.cbtvelocity;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -30,7 +29,7 @@ public class AboutUs extends Fragment{
 	private FloatingActionButton fabMain;
 	private FloatingActionButton fabCall;
 	private FloatingActionButton fabMail;
-	private int FAB_VISIBILITY = 0;
+	private boolean FAB_VISIBILITY = false;
 	
 	public AboutUs(){
 		// Required empty public constructor
@@ -40,11 +39,17 @@ public class AboutUs extends Fragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState){
 
+		// Inflate the main view.
 		rootView = inflater.inflate(R.layout.fragment_about_us, container, false);
 
+		// Get the scrollView.
 		scrollView = (ScrollView) rootView.findViewById(R.id.scrollViewAbout);
 
-		// Set a listener on the ScrollView.
+		// Set a listener on the ScrollView. Since there isn't a default onScrollListener for a scrollView
+		// I had to add a globalLayoutListener to the ViewTreeObserver, then remove the globalLayoutListener
+		// and add a onScrollChangedListener to the observer.
+		// It's a little bit hacky, but it works.
+		// TODO: Make sure Extra FABs are visible before calling hideFABs()
 		scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
@@ -54,7 +59,7 @@ public class AboutUs extends Fragment{
 				observer.addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
 					@Override
 					public void onScrollChanged() {
-						if(FAB_VISIBILITY == 1){
+						if(FAB_VISIBILITY){
 							Log.d("ScrollListener", "Scroll Event");
 							hideFABs();
 						}
@@ -63,16 +68,19 @@ public class AboutUs extends Fragment{
 			}
 		});
 
+		// Load the Velocity image into the imageView.
 		ImageView imageView = (ImageView) rootView.findViewById(R.id.velocity_image);
 		Picasso.with(App.getContext())
-				.load("http://174.100.202.101/VelocityPics/Velocity.jpg")
+				.load("http://173.91.95.14/VelocityPics/Velocity.jpg")
 				.resize(250, 170)
 				.into(imageView);
 
+		// Get the FABs.
 		fabMain = (FloatingActionButton) rootView.findViewById(R.id.fabMain);
 		fabCall = (FloatingActionButton) rootView.findViewById(R.id.fabCall);
 		fabMail = (FloatingActionButton) rootView.findViewById(R.id.fabMail);
 
+		// Set the listener to expand the main FAB to show the other FABs.
 		fabMain.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View view){
@@ -84,6 +92,7 @@ public class AboutUs extends Fragment{
 		return rootView;
 	}
 
+	// Necessary for the ViewTreeObserver listener.
 	@Override
 	public void setUserVisibleHint(boolean isVisibleToUser) {
 		super.setUserVisibleHint(isVisibleToUser);
@@ -93,17 +102,20 @@ public class AboutUs extends Fragment{
 		}
 	}
 
+	// If all FABs are visible when the Activity or Fragment is paused the FABs should hide.
 	@Override
 	public void onPause() {
 		super.onPause();
-		hideFABs();
+		if(FAB_VISIBILITY) {
+			hideFABs();
+		}
 	}
 
 	// Called on any scroll event in any direction.
 	// If the additional FABs are shown this will hide them as soon as there is a scroll event.
 	private void hideFABs(){
-		if(FAB_VISIBILITY == 1) {
-			FAB_VISIBILITY = 0;
+		if(FAB_VISIBILITY) {
+			FAB_VISIBILITY = false;
 
 			animateAdditionalFABsOut();
 		}
@@ -111,16 +123,20 @@ public class AboutUs extends Fragment{
 
 	public void setAdditionalFABs(){
 
-		if(FAB_VISIBILITY == 0){
+		// If FABs are not visible, make them visible with animation and update their visibility code to true.
+		if(!FAB_VISIBILITY){
 			animateAdditionalFABsIn();
-			FAB_VISIBILITY = 1;
+			FAB_VISIBILITY = true;
+		// If FABs are visible, make them not visible with animation and update their visibility code to false.
 		} else {
 			animateAdditionalFABsOut();
-			FAB_VISIBILITY = 0;
+			FAB_VISIBILITY = false;
 		}
 
-		//fabCall.getVisibility() == View.VISIBLE && fabMail.getVisibility() == View.VISIBLE
-		if(FAB_VISIBILITY == 1){
+		// Set onClick listeners only if they are visible. This is important because making them invisible means the user
+		// can no longer see them, but they still exist on the screen so if the listener is still on and they touch that
+		// part of the screen it will register the click.
+		if(FAB_VISIBILITY){
 			fabCall.setOnClickListener(new View.OnClickListener(){
 				@Override
 				public void onClick(View view){
@@ -141,6 +157,7 @@ public class AboutUs extends Fragment{
 
 	}
 
+	// Animates the additional FABs into view with an upward motion and a fade in at the same time.
 	public void animateAdditionalFABsIn(){
 		Animation animation = AnimationUtils.loadAnimation(App.getContext(), R.anim.slide_up);
 		animation.setAnimationListener(new Animation.AnimationListener(){
@@ -164,9 +181,11 @@ public class AboutUs extends Fragment{
 		fabCall.startAnimation(animation);
 		fabMail.startAnimation(animation);
 
+		// Changes the main FAB image action to let user know that clicking again will hide the FABs.
 		fabMain.setImageDrawable(ContextCompat.getDrawable(App.getContext(), R.drawable.ic_action_close));
 	}
 
+	// Resets the FABs and animates them out with a downward motion and a fade out.
 	public void animateAdditionalFABsOut(){
 		Animation animation = AnimationUtils.loadAnimation(App.getContext(), R.anim.slide_down);
 		animation.setAnimationListener(new Animation.AnimationListener(){
@@ -190,6 +209,7 @@ public class AboutUs extends Fragment{
 		fabCall.startAnimation(animation);
 		fabMail.startAnimation(animation);
 
+		// Changes the main FAB image action to let the user know it can re-expand.
 		fabMain.setImageDrawable(ContextCompat.getDrawable(App.getContext(), R.drawable.ic_action_add));
 	}
 	

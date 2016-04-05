@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 /**
- * Custom adapter to create the card view.
+ * Custom adapter to create the card view and be able to reuse the view.
  */
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
@@ -85,6 +85,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 		}
 	}
 
+	// Required so the recyclerView knows how many times to recycle the view.
 	@Override
 	public int getItemCount(){
 		if(array == null){
