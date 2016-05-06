@@ -18,7 +18,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +68,6 @@ public class Activities extends Fragment{
 		int interval = 60 * 1000;
 
 		//alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
-		Log.d("AlarmManager ", "Alarm set");
 	}
 	
 	@Override
@@ -116,7 +114,7 @@ public class Activities extends Fragment{
 				e.printStackTrace();
 			} catch(IllegalAccessException e){
 				e.printStackTrace();
-				Log.d("Velocity", "error");
+				//Log.d("string", "string");
 			}
 		} else {
 			retainedChildFragmentManager = getChildFragmentManager();

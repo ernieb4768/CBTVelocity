@@ -3,7 +3,6 @@ package com.rmh.rhoffman.cbtvelocity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.blunderer.materialdesignlibrary.fragments.ViewPagerFragment;
 import com.blunderer.materialdesignlibrary.handlers.ViewPagerHandler;
@@ -35,11 +34,9 @@ public class MyViewPagerFragmentWithTabs extends ViewPagerFragment{
 	public ViewPagerHandler getViewPagerHandler(){
 
 		if(activities == null){
-			Log.d("ViewPager", "Activities is null");
 			activities = new Activities();
 		}
 		if(aboutUs == null){
-			Log.d("ViewPager", "AboutUs is null");
 			aboutUs = new AboutUs();
 		}
 
@@ -77,13 +74,11 @@ public class MyViewPagerFragmentWithTabs extends ViewPagerFragment{
 	@Override
 	public void onAttach(Activity activity){
 		super.onAttach(activity);
-
 	}
 
 	@Override
 	public void onDetach(){
 		super.onDetach();
-
 	}
 
 }

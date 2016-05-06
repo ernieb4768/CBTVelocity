@@ -1,7 +1,5 @@
 package com.rmh.rhoffman.cbtvelocity;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -32,7 +30,7 @@ public class ApiConnector{
 		try{
 
 			// The url that points to the php script.
-			URL url = new URL("http://173.91.95.14/getAllActivities.php");
+			URL url = new URL("http://76.188.89.113/getAllActivities.php");
 			// Define, open the connection, and connect to the database.
 			urlConnection = (HttpURLConnection) url.openConnection();
 			urlConnection.connect();
@@ -45,7 +43,6 @@ public class ApiConnector{
 				builder.append(input);
 			}
 
-			Log.d("JSONArray: ", builder.toString());
 			jsonArray = new JSONArray(builder.toString());
 
 		} catch(IOException | JSONException e){
@@ -75,7 +72,7 @@ public class ApiConnector{
 
 		try{
 			// The URL that points to the php script.
-			URL url = new URL("http://173.91.95.14/getNotifications.php");
+			URL url = new URL("http://76.188.89.113/getNotifications.php");
 
 			urlConnection = (HttpURLConnection) url.openConnection();
 			urlConnection.connect();
@@ -89,7 +86,6 @@ public class ApiConnector{
 				builder.append(input);
 			}
 
-			Log.d("JSONArray: ", builder.toString());
 			jsonArray = new JSONArray(builder.toString());
 
 		} catch(IOException | JSONException e){

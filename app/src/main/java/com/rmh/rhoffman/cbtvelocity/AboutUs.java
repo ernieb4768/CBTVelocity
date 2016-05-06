@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +48,6 @@ public class AboutUs extends Fragment{
 		// I had to add a globalLayoutListener to the ViewTreeObserver, then remove the globalLayoutListener
 		// and add a onScrollChangedListener to the observer.
 		// It's a little bit hacky, but it works.
-		// TODO: Make sure Extra FABs are visible before calling hideFABs()
 		scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
@@ -60,7 +58,6 @@ public class AboutUs extends Fragment{
 					@Override
 					public void onScrollChanged() {
 						if(FAB_VISIBILITY){
-							Log.d("ScrollListener", "Scroll Event");
 							hideFABs();
 						}
 					}
