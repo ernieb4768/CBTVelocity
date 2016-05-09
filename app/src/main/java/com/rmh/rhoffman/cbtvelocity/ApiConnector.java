@@ -30,7 +30,7 @@ public class ApiConnector{
 		try{
 
 			// The url that points to the php script.
-			URL url = new URL("http://76.188.89.113/getAllActivities.php");
+			URL url = new URL(MainActivity.databaseAddress + "/getAllActivities.php");
 			// Define, open the connection, and connect to the database.
 			urlConnection = (HttpURLConnection) url.openConnection();
 			urlConnection.connect();
@@ -72,7 +72,7 @@ public class ApiConnector{
 
 		try{
 			// The URL that points to the php script.
-			URL url = new URL("http://76.188.89.113/getNotifications.php");
+			URL url = new URL(MainActivity.databaseAddress + "/getNotifications.php");
 
 			urlConnection = (HttpURLConnection) url.openConnection();
 			urlConnection.connect();

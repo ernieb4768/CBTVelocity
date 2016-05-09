@@ -22,6 +22,8 @@ public class MainActivity extends NavigationDrawerActivity{
 
 	public MyViewPagerFragmentWithTabs fragment;
 	private FragmentTransaction ft;
+
+	public static final String databaseAddress = "http://76.188.89.113/";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
