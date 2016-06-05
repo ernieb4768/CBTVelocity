@@ -21,7 +21,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -83,7 +82,7 @@ public class Activities extends Fragment{
 		layoutManager = new LinearLayoutManager(App.getContext());
 		recyclerView.setLayoutManager(layoutManager);
 
-		adapter = new CardAdapter(null);
+		adapter = new CardAdapter(null, null);
 		recyclerView.setAdapter(adapter);
 
 		return parentView;
@@ -190,7 +189,7 @@ public class Activities extends Fragment{
 	// Updates the recyclerview with the new adapter that actually contains the data.
 	public void addCardsToRecyclerView(ArrayList<Card> list){
 		this.list = list;
-		adapter = new CardAdapter(list);
+		adapter = new CardAdapter(list, this.getActivity());
 		recyclerView.setAdapter(adapter);
 	}
 
@@ -218,14 +217,6 @@ public class Activities extends Fragment{
 							Card card = new Card();
 							card.setTitle(object.getString("DESCRIPTION"));
 							card.setImageURL(object.getString("IMAGE"));
-							// Custom on click listener...Not currently working
-							// TODO: update setOnCardClickListener()
-							card.setOnCardClickListener(new Card.OnCardClickListener() {
-								@Override
-								public void onClick() {
-									Toast.makeText(App.getContext(), "Click worked", Toast.LENGTH_SHORT).show();
-								}
-							});
 							list.add(card);
 						} catch(JSONException e){
 							e.printStackTrace();

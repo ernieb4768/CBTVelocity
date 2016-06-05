@@ -25,6 +25,11 @@ public class Credits extends ListViewActivity{
 	}
 
 	@Override
+	protected boolean enableActionBarShadow() {
+		return true;
+	}
+
+	@Override
 	protected ActionBarHandler getActionBarHandler(){
 		return null;
 	}
