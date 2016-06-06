@@ -1,16 +1,22 @@
 package com.rmh.rhoffman.cbtvelocity;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import com.blunderer.materialdesignlibrary.activities.Activity;
 import com.blunderer.materialdesignlibrary.handlers.ActionBarDefaultHandler;
 import com.blunderer.materialdesignlibrary.handlers.ActionBarHandler;
+import com.squareup.picasso.Picasso;
 
 public class ActivityDetails extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		ImageView imageView = (ImageView) findViewById(R.id.detailsImageView);
+		String imageURL = getIntent().getStringExtra("IMAGE");
+
+		Picasso.with(this).load(imageURL).into(imageView);
 	}
 
 	@Override

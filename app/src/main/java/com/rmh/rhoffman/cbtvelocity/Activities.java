@@ -82,7 +82,7 @@ public class Activities extends Fragment{
 		layoutManager = new LinearLayoutManager(App.getContext());
 		recyclerView.setLayoutManager(layoutManager);
 
-		adapter = new CardAdapter(null, null);
+		adapter = new CardAdapter(null);
 		recyclerView.setAdapter(adapter);
 
 		return parentView;
@@ -189,7 +189,7 @@ public class Activities extends Fragment{
 	// Updates the recyclerview with the new adapter that actually contains the data.
 	public void addCardsToRecyclerView(ArrayList<Card> list){
 		this.list = list;
-		adapter = new CardAdapter(list, this.getActivity());
+		adapter = new CardAdapter(list);
 		recyclerView.setAdapter(adapter);
 	}
 

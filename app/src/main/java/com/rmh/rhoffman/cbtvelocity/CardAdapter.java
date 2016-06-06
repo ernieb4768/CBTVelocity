@@ -1,6 +1,5 @@
 package com.rmh.rhoffman.cbtvelocity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.support.v7.widget.CardView;
@@ -22,13 +21,11 @@ import java.util.ArrayList;
  */
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
-	public ArrayList<Card> array;
+	private static ArrayList<Card> array;
 	private int lastPosition = -1;
-	public static Activity activity;
 
-	public CardAdapter(ArrayList<Card> cards, Activity activity){
+	public CardAdapter(ArrayList<Card> cards){
 		this.array = cards;
-		this.activity = activity;
 	}
 
 	// Creates the container to hold the view. To expand the view to contain more information
@@ -48,7 +45,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 		@Override
 		public void onClick(View v) {
 			Intent intent = new Intent(App.getContext(), ActivityDetails.class);
-			CardAdapter.activity.startActivity(intent);
+			intent.putExtra("IMAGE", array.get(getAdapterPosition()).getImageURL());
+			v.getContext().startActivity(intent);
 		}
 	}
 
