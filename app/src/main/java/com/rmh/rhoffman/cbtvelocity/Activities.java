@@ -1,7 +1,6 @@
 package com.rmh.rhoffman.cbtvelocity;
 
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -58,15 +57,6 @@ public class Activities extends Fragment{
 		Intent alarmIntent = new Intent(App.getContext(), AlarmReceiver.class);
 		pendingIntent = PendingIntent.getBroadcast(App.getContext(), 0, alarmIntent, 0);
 
-		start();
-
-	}
-
-	private void start(){
-		AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-		int interval = 60 * 1000;
-
-		//alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
 	}
 	
 	@Override
@@ -234,7 +224,7 @@ public class Activities extends Fragment{
 		private Card exceptionCard(){
 			Drawable drawable = ContextCompat.getDrawable(App.getContext(), R.mipmap.ic_frown);
 			Card card = new Card();
-			card.setTitle("We're unable to connect to the server...");
+			card.setTitle("Well this is embarrassing...");
 			card.setImageDrawable(drawable);
 			return card;
 		}

@@ -68,7 +68,7 @@ public class AboutUs extends Fragment{
 		// Load the Velocity image into the imageView.
 		ImageView imageView = (ImageView) rootView.findViewById(R.id.velocity_image);
 		Picasso.with(App.getContext())
-				.load(MainActivity.databaseAddress + "VelocityPics/Velocity.jpg")
+				.load(MainActivity.DATABASE_ADDRESS + "VelocityPics/Velocity.jpg")
 				.resize(250, 170)
 				.into(imageView);
 

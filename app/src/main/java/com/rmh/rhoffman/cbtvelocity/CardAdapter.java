@@ -25,7 +25,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 	private int lastPosition = -1;
 
 	public CardAdapter(ArrayList<Card> cards){
-		this.array = cards;
+		array = cards;
 	}
 
 	// Creates the container to hold the view. To expand the view to contain more information
@@ -46,7 +46,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 		public void onClick(View v) {
 			Intent intent = new Intent(App.getContext(), ActivityDetails.class);
 			intent.putExtra("IMAGE", array.get(getAdapterPosition()).getImageURL());
-			v.getContext().startActivity(intent);
+			//v.getContext().startActivity(intent);
 		}
 	}
 
@@ -83,7 +83,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 		holder.cardView.clearAnimation();
 	}
 
-	// Sets an animation on the FAB for Lollipop and above.
+	// Sets an animation on the cards for Lollipop and above.
 	// Code will be skipped for pre-lollipop devices.
 	private void setAnimation(View viewToAnimate, int position){
 		if(position > lastPosition){
