@@ -37,9 +37,6 @@
                 android:value="com.rmh.rhoffman.cbtvelocity.MainActivity"/>
         </activity>
 
-        <receiver android:name=".AlarmReceiver">
-        </receiver>
-
         <activity
             android:name=".ActivityDetails"
             android:label="@string/title_activity_activity_details"
@@ -48,6 +45,19 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rmh.rhoffman.cbtvelocity.MainActivity"/>
         </activity>
+
+        <service android:name=".NotificationService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <service android:name=".FirebaseIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

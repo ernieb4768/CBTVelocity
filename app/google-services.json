@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "734858414378",
+    "firebase_url": "https://cbtvelocity-b6346.firebaseio.com",
+    "project_id": "cbtvelocity-b6346",
+    "storage_bucket": "cbtvelocity-b6346.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:734858414378:android:b14cf1e9e350fdf6",
+        "android_client_info": {
+          "package_name": "com.rmh.rhoffman.cbtvelocity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "734858414378-eo6aph36au390c0082nk9pgq453dhap1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_v11GChd9Xtul9BZANOIaBUv6WSVPTfo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
