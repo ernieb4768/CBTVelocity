@@ -57,45 +57,4 @@ public class ApiConnector{
 
 	}
 
-	/**
-	 * Connect to the database and access the data needed to create a notification. It will
-	 * get the requested information from a php script on the server and return it as a
-	 * JSONArray. The php script will do the heavy lifting on this so the app will use as
-	 * little memory as possible. It will only send the most recent row that was inserted.
-	 *
-	 * @return JSONArray
-	 */
-	public JSONArray getNotifications(){
-
-		HttpURLConnection urlConnection = null;
-		JSONArray jsonArray = null;
-
-		try{
-			// The URL that points to the php script.
-			URL url = new URL(MainActivity.DATABASE_ADDRESS + "/getNotifications.php");
-
-			urlConnection = (HttpURLConnection) url.openConnection();
-			urlConnection.connect();
-
-			InputStream stream = urlConnection.getInputStream();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-			StringBuilder builder = new StringBuilder();
-			String input;
-
-			while((input = reader.readLine()) != null){
-				builder.append(input);
-			}
-
-			jsonArray = new JSONArray(builder.toString());
-
-		} catch(IOException | JSONException e){
-			e.printStackTrace();
-			// If there was an error it will return an empty or null array.
-			return new JSONArray();
-		}
-
-		return jsonArray;
-
-	}
-
 }

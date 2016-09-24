@@ -91,13 +91,13 @@ public class ContactUs extends Activity{
 	private void setUpEmail(){
 		SideImageCard email = new SideImageCard();
 		email.setTitle("Email Address");
-		email.setSubtitle("bjennings@cantonbaptist.org");
-		email.setImage(R.mipmap.ic_ben_jennings);
+		email.setSubtitle("zanderson@cantonbaptist.org");
+		email.setImage(R.mipmap.ic_cbt_circle);
 		email.setButtonText("EMAIL");
 		email.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View view){
-				Intent email = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "bjennings@cantonbaptist.org", null));
+				Intent email = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "zanderson@cantonbaptist.org", null));
 				email.putExtra(Intent.EXTRA_SUBJECT, "Requesting Information about Velocity");
 				startActivity(Intent.createChooser(email, "Send Email"));
 			}
